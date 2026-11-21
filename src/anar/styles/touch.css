@@ -1,0 +1,47 @@
+/*
+ * Pekytor: minst 44 x 44 px på pekskärmar (telefon och surfplatta, upp till
+ * 1023 px), som e2e-testerna kräver (e2e/specs/ux.spec.ts). Samma utseende,
+ * bara större klickyta; på datorn är allt som förut.
+ */
+@media (max-width: 1023px) {
+  /* Länkarna ovanför sidfoten: varje rad är en hel pekyta. */
+  .mobile-pre-footer-list {
+    gap: 0;
+  }
+
+  .mobile-pre-footer-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    min-width: 44px;
+    padding: 0 0.6rem;
+  }
+
+  .site-footer-legal {
+    gap: 0 0.5rem;
+  }
+
+  .site-footer-legal a,
+  .site-footer-org,
+  .historia-link,
+  .parking-page-maps-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  .site-footer-org {
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  /* Kitets knappar och kategorichips. */
+  .chip-rail .chip,
+  .bq-btn--sm,
+  .btn-small {
+    min-height: 44px;
+  }
+}
+

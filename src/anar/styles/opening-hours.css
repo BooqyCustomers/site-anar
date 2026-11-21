@@ -1,0 +1,276 @@
+/* Öppettider (dropdown + innehåll) */
+
+.opening-hours {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.opening-hours-section {
+  border-radius: 8px;
+  border: 1px solid rgba(255, 245, 238, 0.12);
+  background: rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+.opening-hours-summary {
+  cursor: pointer;
+  list-style: none;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 0.98rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: rgba(201, 166, 107, 0.98);
+  padding: 0.55rem 0.65rem;
+  padding-inline-end: 1.75rem;
+  position: relative;
+  transition: background 0.2s ease;
+}
+
+.opening-hours-summary::-webkit-details-marker {
+  display: none;
+}
+
+.opening-hours-summary::after {
+  content: '';
+  position: absolute;
+  inset-inline-end: 0.65rem;
+  top: 50%;
+  width: 0.45rem;
+  height: 0.45rem;
+  border-right: 2px solid rgba(201, 166, 107, 0.75);
+  border-bottom: 2px solid rgba(201, 166, 107, 0.75);
+  transform: translateY(-65%) rotate(45deg);
+  transition: transform 0.2s ease;
+}
+
+.opening-hours-section[open] .opening-hours-summary::after {
+  transform: translateY(-25%) rotate(225deg);
+}
+
+.opening-hours-summary:hover {
+  background: rgba(139, 24, 32, 0.2);
+}
+
+.opening-hours-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Outfit', system-ui, sans-serif;
+  font-size: 0.78rem;
+}
+
+.opening-hours-table th,
+.opening-hours-table td {
+  padding: 0.35rem 0.65rem;
+  text-align: start;
+  font-weight: 400;
+  border-top: 1px solid rgba(255, 245, 238, 0.08);
+}
+
+.opening-hours-table th {
+  color: rgba(255, 245, 238, 0.72);
+  text-transform: capitalize;
+  width: 38%;
+  font-weight: 500;
+}
+
+.opening-hours-table td {
+  color: rgba(255, 248, 242, 0.92);
+}
+
+/* Desktop header dropdown */
+.site-header-dropdown {
+  position: relative;
+}
+
+.site-header-dropdown-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.28rem;
+  margin: 0;
+  line-height: 1.26;
+  font-family: 'Outfit', system-ui, sans-serif;
+  font-size: clamp(0.78rem, 1.05vw, 0.94375rem);
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255, 248, 242, 0.88);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0.35rem;
+  border-radius: 2px;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+.site-header-dropdown-trigger:hover {
+  color: #f5e6d8;
+  background: rgba(139, 24, 32, 0.25);
+}
+
+.site-header-dropdown-trigger:focus-visible {
+  outline: 2px solid #f5e6d8;
+  outline-offset: 2px;
+}
+
+.site-header-dropdown-chevron {
+  display: inline-block;
+  width: 0.35rem;
+  height: 0.35rem;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  /* Ritas runt sin mitt så att texten ligger kvar på samma linje som länkarna */
+  transform: rotate(45deg);
+  margin-top: -0.2rem;
+  opacity: 0.85;
+  transition: transform 0.2s ease;
+}
+
+.site-header-dropdown-chevron--open {
+  transform: rotate(225deg);
+  margin-top: 0.15rem;
+}
+
+/* Desktop: öppettider som popup (2×2-rutnät) */
+.opening-hours-modal-root {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(0.75rem, 3vw, 1.5rem);
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+.opening-hours-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.opening-hours-modal-panel {
+  position: relative;
+  z-index: 1;
+  width: min(44rem, 100%);
+  max-height: min(88vh, 40rem);
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 1rem 1.15rem 1.2rem;
+  border-radius: 12px;
+  background: rgba(14, 8, 8, 0.97);
+  border: 1px solid rgba(201, 166, 107, 0.38);
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.28),
+    0 20px 56px rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  pointer-events: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.opening-hours-modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.65rem;
+  padding-bottom: 0.55rem;
+  border-bottom: 1px solid rgba(255, 245, 238, 0.12);
+}
+
+.opening-hours-modal-heading {
+  margin: 0;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(1.05rem, 2.2vw, 1.35rem);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: rgba(201, 166, 107, 0.98);
+  line-height: 1.2;
+}
+
+.opening-hours-modal-close {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  margin: -0.2rem -0.25rem 0 0;
+  padding: 0;
+  font-family: 'Outfit', system-ui, sans-serif;
+  font-size: 1.45rem;
+  font-weight: 300;
+  line-height: 1;
+  color: rgba(255, 248, 242, 0.85);
+  background: rgba(139, 24, 32, 0.35);
+  border: 1px solid rgba(255, 245, 238, 0.15);
+  border-radius: 8px;
+  cursor: pointer;
+  transition:
+    color 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.opening-hours-modal-close:hover {
+  color: #fff;
+  background: rgba(139, 24, 32, 0.55);
+  border-color: rgba(201, 166, 107, 0.35);
+}
+
+.opening-hours-modal-close:focus-visible {
+  outline: 2px solid rgba(201, 166, 107, 0.85);
+  outline-offset: 2px;
+}
+
+.opening-hours.opening-hours--header-modal {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: auto auto;
+  gap: 0.65rem 0.9rem;
+  margin: 0;
+}
+
+.opening-hours--header-modal .opening-hours-section--static {
+  min-width: 0;
+}
+
+.opening-hours--header-modal .opening-hours-section-title {
+  margin: 0;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(0.82rem, 1.35vw, 0.95rem);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: rgba(201, 166, 107, 0.98);
+  text-align: center;
+  line-height: 1.25;
+  padding: 0.45rem 0.5rem;
+  border-bottom: 1px solid rgba(255, 245, 238, 0.1);
+  background: rgba(139, 24, 32, 0.14);
+}
+
+.opening-hours--header-modal .opening-hours-table {
+  font-size: clamp(0.68rem, 1.1vw, 0.78rem);
+}
+
+.opening-hours--header-modal .opening-hours-table th,
+.opening-hours--header-modal .opening-hours-table td {
+  padding: 0.28rem 0.5rem;
+}
+
+@media (max-width: 520px) {
+  .opening-hours.opening-hours--header-modal {
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
+  }
+}

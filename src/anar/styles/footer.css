@@ -1,0 +1,151 @@
+.site-footer {
+  margin-top: auto;
+  width: 100%;
+  border-top: 1px solid #000;
+  background: rgba(4, 2, 2, 0.72);
+  backdrop-filter: blur(8px);
+}
+
+.site-footer-main {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  gap: 0.75rem 1rem;
+  align-items: start;
+  /* Figma: 1152 bred, 24 i sidled, 13.6 över och 14.4 under, gap 16 */
+  max-width: min(72rem, 100%);
+  margin: 0 auto;
+  padding: 0.85rem clamp(1rem, 3vw, 1.5rem) 0.9rem;
+  box-sizing: border-box;
+}
+
+.site-footer-org {
+  justify-self: start;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.15rem;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: rgba(255, 248, 242, 0.88);
+  text-decoration: none;
+  transition: color 0.2s ease, text-decoration-color 0.2s ease;
+}
+
+.site-footer-org-name {
+  line-height: 1.2;
+}
+
+.site-footer-org-number {
+  font-size: 0.68rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  color: rgba(255, 245, 238, 0.75);
+  line-height: 1.2;
+}
+
+.site-footer-org:hover {
+  color: #fff;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.site-footer-org:hover .site-footer-org-number {
+  color: rgba(255, 248, 242, 0.92);
+}
+
+.site-footer-rights {
+  justify-self: center;
+  margin: 0;
+  max-width: 16rem;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 400;
+  line-height: 1.35;
+  letter-spacing: 0.02em;
+  color: rgba(255, 245, 238, 0.55);
+  text-align: center;
+}
+
+.site-footer-credit-block {
+  justify-self: end;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.35rem;
+  max-width: 18rem;
+}
+
+.site-footer-credit {
+  margin: 0;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 400;
+  line-height: 1.35;
+  color: rgba(255, 245, 238, 0.55);
+  text-align: center;
+}
+
+.site-footer-dev-site {
+  margin: 0;
+}
+
+.site-footer-dev-link {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: rgba(201, 166, 107, 0.95);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.site-footer-dev-link:hover {
+  color: #f0e0c8;
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
+/* Juridiska länkar och Booqy-raden under designens tre kolumner */
+.site-footer-sub {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem 1.25rem;
+  max-width: min(72rem, 100%);
+  margin: 0 auto;
+  padding: 0.55rem clamp(1rem, 3vw, 1.5rem) 0.8rem;
+  border-top: 1px solid rgba(255, 245, 238, 0.06);
+  box-sizing: border-box;
+}
+
+.site-footer-sub .site-footer-legal {
+  justify-self: auto;
+}
+
+@media (max-width: 720px) {
+  .site-footer-main {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+    padding-bottom: 0.15rem;
+  }
+
+  .site-footer-org,
+  .site-footer-rights,
+  .site-footer-credit-block {
+    justify-self: center;
+    text-align: center;
+  }
+
+  .site-footer-org,
+  .site-footer-credit-block {
+    align-items: center;
+  }
+
+  .site-footer-credit-block {
+    max-width: 20rem;
+  }
+}

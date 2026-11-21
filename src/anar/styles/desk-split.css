@@ -1,0 +1,47 @@
+.desk-split {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(1rem, 3vw, 1.75rem);
+  width: 100%;
+  max-width: min(72rem, 100%);
+  margin-inline: auto;
+  padding-inline: clamp(1rem, 3vw, 1.5rem);
+  padding-bottom: clamp(0.35rem, 1.5vw, 0.85rem);
+  box-sizing: border-box;
+  align-items: start;
+}
+
+.desk-split-col {
+  min-width: 0;
+}
+
+@media (min-width: 801px) {
+  .desk-split {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(1.25rem, 3vw, 2.25rem);
+  }
+}
+
+/* Formuläret fyller kolumnen (ersätter tidigare 25vw-centrering) */
+.desk-split .booking {
+  width: 100%;
+  max-width: 100%;
+  margin-inline-start: 0;
+  margin-inline-end: 0;
+  padding-inline-start: 0;
+  padding-inline-end: 0;
+}
+
+@media (min-width: 801px) {
+  .desk-split .booking {
+    --booking-band-w: unset;
+  }
+}
+
+.reviews-column {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.75rem, 2vw, 1.15rem);
+  width: 100%;
+  min-width: 0;
+}

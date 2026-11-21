@@ -1,0 +1,134 @@
+/* Endast mobil: två länkkolumner + fullbredds-rad med öppettider ovanför sidfot */
+.mobile-pre-footer {
+  display: none;
+}
+
+@media (max-width: 800px) {
+  .mobile-pre-footer {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 0.65rem 0.5rem;
+    align-items: start;
+    width: 100%;
+    max-width: min(72rem, 100%);
+    margin: 0 auto;
+    padding: 0.85rem clamp(1rem, 3vw, 1.25rem) 0.35rem;
+    box-sizing: border-box;
+    border-top: 1px solid rgba(255, 245, 238, 0.1);
+  }
+
+  .mobile-pre-footer-col:not(.mobile-pre-footer-col--hours) {
+    text-align: center;
+  }
+
+  .mobile-pre-footer-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.38rem;
+  }
+
+  .mobile-pre-footer-link {
+    display: block;
+    width: fit-content;
+    max-width: 100%;
+    font-family: 'Outfit', system-ui, sans-serif;
+    font-size: clamp(0.62rem, 2.8vw, 0.72rem);
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: rgba(255, 248, 242, 0.88);
+    text-decoration: none;
+    line-height: 1.25;
+    padding: 0.2rem 0;
+    border-radius: 2px;
+    transition: color 0.2s ease, background 0.2s ease;
+  }
+
+  .mobile-pre-footer-link:hover,
+  .mobile-pre-footer-link:focus-visible {
+    color: #f5e6d8;
+    background: rgba(139, 24, 32, 0.22);
+    outline: none;
+  }
+
+  .mobile-pre-footer-hours-heading {
+    margin: 0 0 0.35rem;
+    width: 100%;
+    text-align: center;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(0.72rem, 3.2vw, 0.82rem);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: rgba(201, 166, 107, 0.95);
+    line-height: 1.2;
+  }
+
+  .mobile-pre-footer-col--hours {
+    grid-column: 1 / -1;
+    min-width: 0;
+    max-height: none;
+    overflow: visible;
+    padding-inline-end: 0;
+  }
+
+  .opening-hours--mobile-pre-footer {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.35rem 0.28rem;
+    align-items: start;
+  }
+
+  .opening-hours--mobile-pre-footer .opening-hours-section {
+    border-radius: 6px;
+    min-width: 0;
+  }
+
+  .opening-hours--mobile-pre-footer .opening-hours-section-title {
+    margin: 0;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(0.5rem, 2.2vw, 0.62rem);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: rgba(201, 166, 107, 0.98);
+    text-align: center;
+    line-height: 1.2;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    padding: 0.32rem 0.28rem;
+    border-bottom: 1px solid rgba(255, 245, 238, 0.08);
+    background: rgba(139, 24, 32, 0.12);
+  }
+
+  .opening-hours--mobile-pre-footer .opening-hours-table {
+    font-size: clamp(0.45rem, 2vw, 0.55rem);
+    table-layout: fixed;
+  }
+
+  .opening-hours--mobile-pre-footer .opening-hours-table th,
+  .opening-hours--mobile-pre-footer .opening-hours-table td {
+    padding: 0.16rem 0.2rem;
+    word-break: break-word;
+  }
+
+  .opening-hours--mobile-pre-footer .opening-hours-table th {
+    width: 48%;
+  }
+}
+
+/* Telefon: en tabell per rad, så att veckodagarna får plats utan att brytas */
+@media (max-width: 599px) {
+  .opening-hours--mobile-pre-footer {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.75rem;
+  }
+}
+
+@media (min-width: 600px) and (max-width: 800px) {
+  .opening-hours--mobile-pre-footer {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

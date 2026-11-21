@@ -1,0 +1,124 @@
+.reviews-panel {
+  width: 100%;
+  min-height: 0;
+}
+
+.reviews-panel-card {
+  background: rgba(8, 4, 4, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.38);
+  border-radius: 8px;
+  backdrop-filter: blur(12px);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 12px 48px rgba(0, 0, 0, 0.35);
+  padding: clamp(0.85rem, 2.2vw, 1.35rem);
+  max-height: calc(100svh - clamp(8.75rem, 22svh, 12.25rem));
+  overflow-y: auto;
+  overscroll-behavior: auto;
+  scrollbar-gutter: stable;
+}
+
+@media (min-width: 801px) {
+  .reviews-panel-card {
+    max-height: calc(100svh - clamp(9.5rem, 21svh, 12rem));
+    padding: clamp(0.65rem, 1.4vw, 1rem) clamp(0.85rem, 1.8vw, 1.2rem);
+  }
+}
+
+.reviews-panel-title {
+  margin: 0 0 0.85rem;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(1.2rem, 1.8vw, 1.55rem);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: rgba(255, 248, 242, 0.96);
+}
+
+.reviews-panel-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-bottom: 0;
+}
+
+.reviews-panel-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.45rem 0.65rem;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.32);
+  border: 1px solid rgba(255, 255, 255, 0.42);
+  flex: 1 1 auto;
+  min-width: min(100%, 9.5rem);
+}
+
+.reviews-panel-badge--link {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.reviews-panel-badge--link:hover {
+  border-color: rgba(255, 255, 255, 0.72);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.reviews-panel-badge--google {
+  border-color: rgba(255, 255, 255, 0.48);
+}
+
+.reviews-panel-badge--google:hover {
+  border-color: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.reviews-panel-badge-logo {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.reviews-panel-badge-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 0;
+}
+
+.reviews-panel-badge-label {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.62);
+}
+
+.reviews-panel-badge-score {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: rgba(255, 248, 242, 0.95);
+  letter-spacing: 0.02em;
+}
+
+.reviews-panel-badge-max {
+  font-size: 0.75rem;
+  font-weight: 400;
+  opacity: 0.65;
+  margin-inline-start: 0.1rem;
+}
+
+@media (max-width: 800px) {
+  .reviews-panel-card {
+    padding: 0.65rem 0.75rem;
+    max-height: none;
+    overflow-y: visible;
+    overscroll-behavior: auto;
+    scrollbar-gutter: auto;
+  }
+}

@@ -1,20 +1,14 @@
 <!doctype html>
-<html lang="sv">
+<html lang="sv" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
-    <!-- Standardikonen (Booqys b, mörk på ljus flik och vit på mörk, utan
-         bakgrund) ligger i src/assets så att Vite ger den
-         ett hashat filnamn: deployen cachar allt utom index.html i ett år.
-         En restaurang med egen ikon (branding.faviconUrl) byter den i
-         SiteProvider. -->
-    <link rel="icon" type="image/svg+xml" href="/src/assets/favicon.svg" media="(prefers-color-scheme: light)" />
-    <link rel="icon" type="image/svg+xml" href="/src/assets/favicon-dark.svg" media="(prefers-color-scheme: dark)" />
-    <meta name="theme-color" content="#f1eee6" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#1c1918" media="(prefers-color-scheme: dark)" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="theme-color" content="#0a0606" />
     <link rel="manifest" href="/site.webmanifest" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- Ljust eller mörkt läge innan första bildrutan (public/theme.v1.js). -->
-    <script src="/theme.v1.js"></script>
     <!--
       Skyddsnät: kundsajten är publik, så CSP:n låser ner vad sidan får
       göra. connect-src: API:ts origin (sätts vid bygget) och 'self'
@@ -29,10 +23,11 @@
     -->
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self' https://js.stripe.com https://*.js.stripe.com https://*.awswaf.com; frame-src https://js.stripe.com https://*.js.stripe.com https://hooks.stripe.com; connect-src 'self' %API_ORIGIN% https://api.stripe.com https://*.stripe.com https://*.awswaf.com; img-src 'self' data: https:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self' mailto:"
+      content="default-src 'self'; script-src 'self' https://js.stripe.com https://*.js.stripe.com https://*.awswaf.com; frame-src https://maps.google.com https://www.google.com https://js.stripe.com https://*.js.stripe.com https://hooks.stripe.com; connect-src 'self' %API_ORIGIN% https://api.stripe.com https://*.stripe.com https://*.awswaf.com; img-src 'self' data: https:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self' mailto:"
     />
     <meta name="referrer" content="no-referrer" />
-    <title>Restaurang</title>
+    <meta name="description" content="Anar Restaurang &amp; Bar i Linköping - persisk och afghansk mat, à la carte, kolgrill och drinkmeny. Boka bord och beställ hem." />
+    <title>ANAR Restaurang &amp; Bar</title>
   </head>
   <body>
     <div id="root"></div>

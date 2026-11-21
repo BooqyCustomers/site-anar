@@ -1,0 +1,67 @@
+.order-bar {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 1.125rem 1rem 1rem;
+}
+
+.order-bar-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem 1rem; /* Figma: 16 */
+}
+
+.order-bar-cta {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  display: inline-block;
+  line-height: 1.21;
+  /* Figma 1440: Cormorant 600 23px, spärrning 6.4px, padding 15 44 */
+  font-size: clamp(1.05rem, 1.6vw, 1.4375rem);
+  font-weight: 600;
+  letter-spacing: 0.278em;
+  text-indent: 0.278em; /* jämnar ut spärrningen efter sista bokstaven */
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #1a0a0a;
+  background: linear-gradient(171.5deg, #e8d4b8 0%, #c9a66b 32.143%, #a67d33 71.429%);
+  padding: 0.9375rem clamp(1.25rem, 3.06vw, 2.75rem);
+  border-radius: 2px;
+  box-shadow: 0 4px 28px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
+}
+
+.order-bar-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 36px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  filter: brightness(1.05);
+}
+
+.order-bar-cta:focus-visible {
+  outline: 2px solid #f5e6d8;
+  outline-offset: 4px;
+}
+
+.order-bar-cta--secondary {
+  color: rgba(255, 248, 242, 0.95);
+  background: rgba(12, 8, 6, 0.55);
+  border: 1px solid rgba(201, 166, 107, 0.55);
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 248, 242, 0.08);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.order-bar-cta--secondary:hover {
+  filter: brightness(1.08);
+  border-color: rgba(201, 166, 107, 0.75);
+}
+
+.order-bar--bestall-page .order-bar-actions {
+  justify-content: center;
+}
+

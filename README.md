@@ -19,6 +19,10 @@ Booqy gives a developer write access to that one repo (an invitation on
 GitHub); developers are never members of either organisation. Runbook:
 `infrastructure/docs/CUSTOMER-SITE-RUNBOOK.md`.
 
+**Read [`docs/DATA-RULES.md`](docs/DATA-RULES.md) first:** `dev` only ever
+uses fake data (the restaurant's dev twin and example data, Stripe test
+mode); `main` only ever uses the restaurant's real data from production.
+
 ## Get started locally
 
 Once per machine: a GitHub token with `read:packages` for the kit (the
@@ -57,6 +61,40 @@ elsewhere, copy `.env.example` to `.env.local`.
 - Rollback: Actions -> Deploy -> Run workflow on the branch, with the SHA of
   an older commit on it.
 - Only `dev` and `main`; no other long-lived branches.
+
+## Example data in dev
+
+Rule for every restaurant site: until the restaurant has entered its own data
+in Booqy Admin, the **dev** build shows realistic example data, so the design
+can be judged as it will look live. **Production never shows examples**: it
+says the site is not ready until the restaurant finishes its setup in Booqy
+Admin, then goes live by itself, with no deploy.
+
+- Real data always wins, piece by piece. Filled in only while missing: the
+  location, opening hours (when every day is empty), the menu (also lunch,
+  grill and drinks pages, which read the menu's categories), and, when the
+  location has no floor plan, the floor plan with booking times, held tables
+  and bookings. Example bookings are never sent to Booqy.
+- The code is `src/devPlaceholders/`: `index.ts` is the same for every site,
+  `site.ts` and `menu.json` are this restaurant's examples (Booqy's shapes).
+- Gated at build time: `vite.config.ts` sets `VITE_BOOQY_PLACEHOLDERS` to
+  `true` only for `BOOQY_ENV=dev` (`npm run dev` and the `dev` branch). The
+  `prod` and `test` builds get a constant `false`, so the module is not in
+  their bundle at all; `src/devPlaceholders/bundle.test.ts` builds prod and
+  test and fails if it is. `VITE_BOOQY_PLACEHOLDERS=false` in `.env.local`
+  turns it off locally.
+- The browser console says `booqy-dev-placeholder-data` when something on
+  the page is an example.
+
+## Tests
+
+- `npm test`, `npm run lint`, `npm run build`: unit tests, lint, build (CI on
+  every pull request).
+- `npm run test:site`: the full suite against the deployed dev site and the
+  dev API (API integration, end-to-end flows, UI at 390/768/1024/1440 with
+  visual baselines and axe, UX checks, Core Web Vitals). It runs after every
+  dev deploy and gates the pull request to `main`. See `e2e/README.md`, and
+  `docs/TEST-GATE.md` for the workflows.
 
 ## The kit
 

@@ -1,0 +1,1208 @@
+{
+  "items": [
+    {
+      "menuItemId": "mock-001",
+      "name": "KOKO SABZI (vegetarisk)",
+      "description": "Persisk örtomelett med ägg, vitlökspulver och färska örter som dill, persilja, koriander, bockhornsklöver och spenat. Serveras varm med tomatskivor, saltgurka och sangakbröd.\nEn klassiker från det persiska köket - mild och örtig.",
+      "price": 100,
+      "category": "forratter",
+      "imageKey": null
+    },
+    {
+      "menuItemId": "mock-002",
+      "name": "KASHKE BADEMJAN (vegetarisk)",
+      "description": "Stekt aubergine, lök och vitlök blandas med persisk \"kashk\" (vassle) och toppas med mynta, friterad lök och ytterligare kashk. Serveras med sangakbröd.\nEn av Irans mest älskade röror - krämig och full av tradition.",
+      "price": 100,
+      "category": "forratter",
+      "imageKey": null
+    },
+    {
+      "menuItemId": "mock-003",
+      "name": "MIRZA GHASEMI (vegetarisk)",
+      "description": "Rökt aubergineröra med vitlök, stekt ägg och en mustig tomatsås gjord på färska, stekta tomater. Serveras varm med nygräddat sangakbröd.\nEn traditionell, smakrik, rustik och älskad rätt från norra Iran - kan även serveras i vegansk version",
+      "price": 100,
+      "category": "forratter",
+      "imageKey": null
+    },
+    {
+      "menuItemId": "mock-004",
+      "name": "BADENJAN PORANI (vegetarisk)",
+      "description": "Friterade aubergineskivor varvas med stekta tomater, kryddor och serveras på ett lager yoghurt. Toppas med mer yoghurt.\nVarm förrätt - mild, krämig och vacker i lager.",
+      "price": 100,
+      "category": "forratter",
+      "imageKey": null
+    },
+    {
+      "menuItemId": "mock-005",
+      "name": "SALLAD OLIVIEH",
+      "description": "Krämig kycklingsallad med potatis, ärtor, morot, saltgurka och majonnäs. Serveras kall med tomat- och saltgurkskivor samt sangakbröd.\nPersisk version av potatissallad - perfekt som kall förrätt eller lätt lunch.",
+      "price": 119,
+      "category": "forratter",
+      "imageKey": null
+    },
+    {
+      "menuItemId": "mock-006",
+      "name": "ZERESHK-POLO BA MORGH",
+      "description": "Marinerad kycklingklubba långkokt i smakrik tomatsås, serverad med doftande saffransris toppat med zereshk (berberisbär). Kompletteras med mast-o-khiar (persisk yoghurt med gurka) vid sidan.",
+      "price": 170,
+      "category": "klassiska",
+      "imageKey": null
+    },
+    {
+      "menuItemId": "mock-007",
+      "name": "GHEYMEH BA SIBZAMINI / BADENJAN",
+      "description": "Lammgryta med gula linser, torkad lime, tomatpuré, pommes / stekt aubergine. Serveras med saffransris toppad med zereshk (berberis bär). Ingår 1 dl mast o khiar.",
+      "price": 170,
+      "category": "klassiska",
+      "imageKey": null
+    },
+    {
+      "menuItemId": "mock-008",
+      "name": "GHORMEH-SABZI",
+      "description": "Lammgryta med, bönor och torkad lime, stekt ghorme grönsaker (persilja, koriander, gräslök, bockhornsklöver) serveras med saffransris toppad med zereshk (berberis bär). Ingår 1 dl mast o khiar.",
+      "price": 170,
+      "category": "klassiska",
+      "imageKey": null
+    },
+    {
+      "menuItemId": "mock-009",
+      "name": "BAGHALI-POLO BA MAHICHEH",
+      "description": "Långkokt Lammlägg, saffran, gul lök. serveras med dill blandad ris med bondbönor och toppad med saffransris. Ingår 1 dl mast o khiar och lammlägg sås.",
+      "price": 210,
+      "category": "klassiska",
+      "imageKey": null
+    },
+    {
+      "menuItemId": "mock-010",
+      "name": "GHABOLI POLO",
+      "description": "Långkokt Lammlägg med aromatiska kryddor , ris med russin, morotsskivor och kummin. Ingår 1 dl mast o khiar/ Chakni.",
+      "price": 210,
+      "category": "klassiska",
+      "imageKey": null
+    },
+    {
+      "menuItemId": "mock-011",
+      "name": "ZERESHK-POLO BA MAHICHEH",
+      "description": "Långkokt Lammlägg, saffran, gul lök. serveras med saffransris och toppad med  zereshk (berberisbär). Ingår 1 dl mast o khiar och lammlägg sås.",
+      "price": 210,
+      "category": "klassiska",
+      "imageKey": null
+    },
+    {
+      "menuItemId": "mock-012",
+      "name": "KABAB TABEI - Iransk kabab i stekpanna",
+      "description": "lammfärs, gul lök , tomatsås, stekt tomat och sumak. Serveras med saffransris toppad med zereshk (berberis bär). Ingår 1 dl mast o khiar.",
+      "price": 199,
+      "category": "klassiska",
+      "imageKey": null
+    },
+    {
+      "menuItemId": "mock-013",
+      "name": "GHEYMEH NESAR",
+      "description": "Lammgryta, Lök, Saffran, zereshk (berberis bär), Mandelskivor, skivad söt pelsinskal , Pistasch Skivor, Kardemumma, serveras med saffransris. Ingår 1 dl mast o khiar.",
+      "price": 170,
+      "category": "klassiska",
+      "imageKey": null
+    },
+    {
+      "menuItemId": "mock-014",
+      "name": "MOSAMA MORGH",
+      "description": "Marinerad kycklingklubba i tomatsås, Stekt aubergine, serveras med saffransris toppad med zereshk (berberis bär). Ingår 1 dl mast o khiar.",
+      "price": 170,
+      "category": "klassiska",
+      "imageKey": null
+    },
+    {
+      "menuItemId": "mock-015",
+      "name": "KHORESHTE BAMIEH ( VEGAN)",
+      "description": "Okra, morot, lök, tomat puré, pommes, serveras med saffransris toppad med  zereshk (berberisbär).",
+      "price": 149,
+      "category": "klassiska",
+      "imageKey": null
+    },
+    {
+      "menuItemId": "mock-016",
+      "name": "KHORESHE KADO VA BADEMJAN ( VEGAN)",
+      "description": "Stekt aubergine, stekt zucchini, omat purè, serveras med saffransris toppad med  zereshk (berberisbär). Ingår 1 dl mast o khiar.",
+      "price": 149,
+      "category": "klassiska",
+      "imageKey": null
+    },
+    {
+      "menuItemId": "mock-017",
+      "name": "⭐Chelo-Gardan (Bara lördagar)",
+      "description": "Långsamt tillagad lammnacke som får sin djupa arom från lök, vitlök, smör och subtila kryddor. Serveras med ett luftigt saffransris, toppat med syrligt zereshk och karamelliserad lök - en elegant och fyllig tolkning av en klassisk persisk helgrätt.",
+      "price": 259,
+      "category": "helg",
+      "imageKey": null
+    },
+    {
+      "menuItemId": "mock-018",
+      "name": "⭐Tahchin gosht ba bademjan (Bara lördagar)",
+      "description": "Ett elegant bakat saffransris där lammkött, ägg och yoghurt binds samman till en len och aromrik helhet, smaksatt med kardemumma och rosenvatten. Serveras med stekt aubergine och toppas med syrlig zereshk, rostade mandel- och pistageskivor samt finstrimlad söt apelsinskal - en sofistikerad tolkning av en klassisk persisk fest­rätt.",
+      "price": 199,
+      "category": "helg",
+      "imageKey": null
+    },
+    {
+      "menuItemId": "mock-019",
+      "name": "⭐ Dizi - Traditionell Långkok i Rostfri Skål (Bara fredagar & lördagar)",
+      "description": "Ett traditionellt långkok tolkat i modern fine dining-stil. Långsamt tillagat lamm, kikärter, tomat och saffranskryddor serveras i en stilren rostfri skål som bevarar arom och värme. Buljongen avnjuts separat, och den mjuka grytan mosas och äts med varmt bröd - en sofistikerad helgupplevelse med djupa rötter.",
+      "price": 199,
+      "category": "helg",
+      "imageKey": null
+    },
+    {
+      "menuItemId": "mock-020",
+      "name": "TORSHI - Inlagda grönsaker",
+      "description": "Vinäger, blomkål, aubergine, morot, vitlök, persiska schalottenlök, peperoni, kryddor (nigellafrön, gurkmeja, mynta), salt.",
+      "price": 49,
+      "category": "sidor",
+      "imageKey": null
+    },
+    {
+      "menuItemId": "mock-021",
+      "name": "SALAD SHIRAZI",
+      "description": "Gurka, tomat, rödlök, sur vindruvsjuice.",
+      "price": 49,
+      "category": "sidor",
+      "imageKey": null
+    },
+    {
+      "menuItemId": "mock-022",
+      "name": "MAST O KHIAR",
+      "description": "Yoghurt blandad med gurka, salt och mynta.",
+      "price": 49,
+      "category": "sidor",
+      "imageKey": null
+    },
+    {
+      "menuItemId": "mock-023",
+      "name": "MASTOMOOSIR",
+      "description": "Yoghurt, salt och persiska schalottenlök.",
+      "price": 49,
+      "category": "sidor",
+      "imageKey": null
+    },
+    {
+      "menuItemId": "mock-024",
+      "name": "ZEYTOON PARVARDEH",
+      "description": "Oliver marinerat med granatäpple ,vitlök ,valnötter, mynta och örter.",
+      "price": 49,
+      "category": "sidor",
+      "imageKey": null
+    },
+    {
+      "menuItemId": "mock-025",
+      "name": "SHOLEH ZARD",
+      "description": "Rispudding smaksatt med saffran, rosenvatten, kanel, riven mandel, serveras med tea eller kaffe.",
+      "price": 49,
+      "category": "efterratt",
+      "imageKey": null
+    },
+    {
+      "menuItemId": "mock-026",
+      "name": "SAFFRAN HALVA",
+      "description": "Vetemjöl, socker, smör, saffran, kardemumma, rosenvatten, mandelskivor serveras med tea eller kaffe.",
+      "price": 49,
+      "category": "efterratt",
+      "imageKey": null
+    },
+    {
+      "menuItemId": "mock-027",
+      "name": "SAFFRAN TIRAMISU",
+      "description": "En klassisk dessert med lager av mascarpone och ladyfingers som är indränkta i mjölk och saffran.",
+      "price": 99,
+      "category": "efterratt",
+      "imageKey": null
+    },
+    {
+      "menuItemId": "mock-028",
+      "name": "BASANI ZAFFRANI",
+      "description": "Saffran, gräddglass, Socker, Rosenvatten, Pistasch, Kardemmuma, persisk rose, (Saffransglass).",
+      "price": 69,
+      "category": "efterratt",
+      "imageKey": null
+    },
+    {
+      "menuItemId": "mock-029",
+      "name": "DOOGH",
+      "description": "Yoghurt, mynta och salt.",
+      "price": 20,
+      "category": "trad-dryck",
+      "imageKey": null
+    },
+    {
+      "menuItemId": "mock-030",
+      "name": "SHAHD ABE ZAFFERON",
+      "description": "Saffran, socker, färsk citronjuice, vatten och isbitar.",
+      "price": 39,
+      "category": "trad-dryck",
+      "imageKey": null
+    },
+    {
+      "menuItemId": "mock-031",
+      "name": "SHAHD ABE KHIAR SEKANGEBIN",
+      "description": "Sekangabin , gurka, färsk citronjuice, vatten och isbitar.",
+      "price": 39,
+      "category": "trad-dryck",
+      "imageKey": null
+    },
+    {
+      "menuItemId": "mock-032",
+      "name": "SHAHD ABE KHAKESHIR",
+      "description": "Stillfrö, socker, färsk citronjuice, vatten och isbitar.",
+      "price": 39,
+      "category": "trad-dryck",
+      "imageKey": null
+    },
+    {
+      "menuItemId": "mock-033",
+      "name": "SHAHD ABE TOKHM SHARBATI",
+      "description": "Vilda basilikas frö, socker, färsk citronjuice, saffran, vatten och isbitar.",
+      "price": 39,
+      "category": "trad-dryck",
+      "imageKey": null
+    },
+    {
+      "menuItemId": "mock-034",
+      "name": "SHAHD ABE ALBALOO",
+      "description": "Surkörsbär sirap, socker,färsk citronjuice, vatten och isbitar.",
+      "price": 39,
+      "category": "trad-dryck",
+      "imageKey": null
+    },
+    {
+      "menuItemId": "mock-035",
+      "name": "SHAHD ABE BIDMESHK",
+      "description": "Sur apelsinblomma destillat, socker, färsk citronjuice, vatten och isbitar.",
+      "price": 39,
+      "category": "trad-dryck",
+      "imageKey": null
+    },
+    {
+      "menuItemId": "mock-036",
+      "name": "SHAHD ABE BAHARNARENJ",
+      "description": "Sur apelsinblomma destillat, socker, färsk citronjuice, vatten och isbitar.",
+      "price": 39,
+      "category": "trad-dryck",
+      "imageKey": null
+    },
+    {
+      "menuItemId": "mock-037",
+      "name": "LÄSK",
+      "description": "",
+      "price": 25,
+      "category": "drycker",
+      "imageKey": null,
+      "options": [
+        {
+          "name": "Sort",
+          "required": true,
+          "maxChoices": 1,
+          "choices": [
+            {
+              "name": "Coca Cola",
+              "price": 0
+            },
+            {
+              "name": "Coca Cola Zero",
+              "price": 0
+            },
+            {
+              "name": "Fanta",
+              "price": 0
+            },
+            {
+              "name": "Fanta exotic",
+              "price": 0
+            },
+            {
+              "name": "Pepsi",
+              "price": 0
+            },
+            {
+              "name": "Pepsi Max",
+              "price": 0
+            },
+            {
+              "name": "Sprite",
+              "price": 0
+            },
+            {
+              "name": "7up",
+              "price": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "menuItemId": "mock-038",
+      "name": "MINERALVATTEN",
+      "description": "",
+      "price": 25,
+      "category": "drycker",
+      "imageKey": null,
+      "options": [
+        {
+          "name": "Sort",
+          "required": true,
+          "maxChoices": 1,
+          "choices": [
+            {
+              "name": "Loka citron",
+              "price": 0
+            },
+            {
+              "name": "Ramlösa Original",
+              "price": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "menuItemId": "mock-039",
+      "name": "Aperol spritz",
+      "description": "Prosecco, aperol, sodavatten, apelsinskiva",
+      "price": 115,
+      "category": "drinkar",
+      "imageKey": null,
+      "alcohol": true
+    },
+    {
+      "menuItemId": "mock-040",
+      "name": "Sex on the beach",
+      "description": "Vodka, peach liquor, orange juice, cranberry juice",
+      "price": 139,
+      "category": "drinkar",
+      "imageKey": null,
+      "alcohol": true
+    },
+    {
+      "menuItemId": "mock-041",
+      "name": "Side car",
+      "description": "Cognac (Hennessy), apelsinlikör, färsk lime juice",
+      "price": 219,
+      "category": "drinkar",
+      "imageKey": null,
+      "alcohol": true
+    },
+    {
+      "menuItemId": "mock-042",
+      "name": "Margarita",
+      "description": "Tequila, apelsinlikör, färsk citronjuice",
+      "price": 169,
+      "category": "drinkar",
+      "imageKey": null,
+      "alcohol": true
+    },
+    {
+      "menuItemId": "mock-043",
+      "name": "Pink Gin & tonic",
+      "description": "Pink Gin, tonic, citron",
+      "price": 129,
+      "category": "drinkar",
+      "imageKey": null,
+      "alcohol": true
+    },
+    {
+      "menuItemId": "mock-044",
+      "name": "Gin & tonic",
+      "description": "Gin, tonic, citron",
+      "price": 119,
+      "category": "drinkar",
+      "imageKey": null,
+      "alcohol": true
+    },
+    {
+      "menuItemId": "mock-045",
+      "name": "Mojito",
+      "description": "Rum, brunt farinsocker, mynta, lime, sodavatten",
+      "price": 139,
+      "category": "drinkar",
+      "imageKey": null,
+      "alcohol": true
+    },
+    {
+      "menuItemId": "mock-046",
+      "name": "Juneberry Mojito",
+      "description": "Rum, juneberry red bull / sprite, lime, mynta",
+      "price": 129,
+      "category": "drinkar",
+      "imageKey": null,
+      "alcohol": true
+    },
+    {
+      "menuItemId": "mock-047",
+      "name": "Vina Maipo (Spanien)",
+      "description": "Ett medelfylligt vin med mjuka tanniner och inslag av mörka bär och färska örter. Behaglig eftersmak.",
+      "price": 89,
+      "category": "rott-vin",
+      "imageKey": null,
+      "alcohol": true,
+      "options": [
+        {
+          "name": "Storlek",
+          "required": true,
+          "maxChoices": 1,
+          "choices": [
+            {
+              "name": "Glas",
+              "price": 0
+            },
+            {
+              "name": "Flaska",
+              "price": 270
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "menuItemId": "mock-048",
+      "name": "The Merchant Irdabama (Irani)",
+      "description": "Light red, ruby.\nBärig smak med inslag av hallon, tranbär, blodgrapefrukt och färska örter.",
+      "price": 119,
+      "category": "rott-vin",
+      "imageKey": null,
+      "alcohol": true,
+      "options": [
+        {
+          "name": "Storlek",
+          "required": true,
+          "maxChoices": 1,
+          "choices": [
+            {
+              "name": "Glas",
+              "price": 0
+            },
+            {
+              "name": "Flaska",
+              "price": 380
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "menuItemId": "mock-049",
+      "name": "Hafez The Poet (Irani)",
+      "description": "Medium-dark red.\nFruktig smak med inslag av fat, skogshallon, örter, körsbär, lakrits, kryddpeppar, lingon och vanilj.",
+      "price": 169,
+      "category": "rott-vin",
+      "imageKey": null,
+      "alcohol": true,
+      "options": [
+        {
+          "name": "Storlek",
+          "required": true,
+          "maxChoices": 1,
+          "choices": [
+            {
+              "name": "Glas",
+              "price": 0
+            },
+            {
+              "name": "Flaska",
+              "price": 450
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "menuItemId": "mock-050",
+      "name": "Saadi The Master (Irani)",
+      "description": "Light ruby.\nBärig, något kryddig smak med inslag av lingon, skogshallon, färska örter och blodapelsin.",
+      "price": 105,
+      "category": "rott-vin",
+      "imageKey": null,
+      "alcohol": true,
+      "options": [
+        {
+          "name": "Storlek",
+          "required": true,
+          "maxChoices": 1,
+          "choices": [
+            {
+              "name": "Glas",
+              "price": 0
+            },
+            {
+              "name": "Flaska",
+              "price": 334
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "menuItemId": "mock-051",
+      "name": "Diako The King (Irani)",
+      "description": "Mörklila färg.\nMycket fruktig smak med inslag av björnbär, blåbär, plommon, viol, svartpeppar och mynta.",
+      "price": 129,
+      "category": "rott-vin",
+      "imageKey": null,
+      "alcohol": true,
+      "options": [
+        {
+          "name": "Storlek",
+          "required": true,
+          "maxChoices": 1,
+          "choices": [
+            {
+              "name": "Glas",
+              "price": 0
+            },
+            {
+              "name": "Flaska",
+              "price": 390
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "menuItemId": "mock-052",
+      "name": "Ne Unique Youtab (Irani)",
+      "description": "Dry orange, koppar.\nNyanserad, något utvecklad, mycket frisk smak med liten strävhet, inslag av torkade aprikoser, mango, marsipan, havtorn, apelsinskal, nötter och kryddor.",
+      "price": 109,
+      "category": "rott-vin",
+      "imageKey": null,
+      "alcohol": true,
+      "options": [
+        {
+          "name": "Storlek",
+          "required": true,
+          "maxChoices": 1,
+          "choices": [
+            {
+              "name": "Glas",
+              "price": 0
+            },
+            {
+              "name": "Flaska",
+              "price": 350
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "menuItemId": "mock-053",
+      "name": "Ruida Domo Rosé",
+      "description": "Denna somriga rosé har friska, fruktiga toner av jordgubb, blodapelsin och citrus. Ett svalkande avbrott i vardagen.",
+      "price": 89,
+      "category": "rose-vin",
+      "imageKey": null,
+      "alcohol": true,
+      "options": [
+        {
+          "name": "Storlek",
+          "required": true,
+          "maxChoices": 1,
+          "choices": [
+            {
+              "name": "Glas",
+              "price": 0
+            },
+            {
+              "name": "Flaska",
+              "price": 160
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "menuItemId": "mock-054",
+      "name": "Pinot Noir Rosé",
+      "description": "Bärig, mycket frisk smak med inslag av smultron, färska örter, rabarber, persika och blodapelsin. En sällskapsdryck för mysiga kvällar.",
+      "price": 109,
+      "category": "rose-vin",
+      "imageKey": null,
+      "alcohol": true,
+      "options": [
+        {
+          "name": "Storlek",
+          "required": true,
+          "maxChoices": 1,
+          "choices": [
+            {
+              "name": "Glas",
+              "price": 0
+            },
+            {
+              "name": "Flaska",
+              "price": 250
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "menuItemId": "mock-055",
+      "name": "The Warrior Ariobarzanes (Irani)",
+      "description": "Light golden, amber.\nFruktig, utvecklad smak med liten strävhet, inslag av torkade äpplen, nötter, torkad frukt, havtorn och pomerans.",
+      "price": 109,
+      "category": "vitt-vin",
+      "imageKey": null,
+      "alcohol": true,
+      "options": [
+        {
+          "name": "Storlek",
+          "required": true,
+          "maxChoices": 1,
+          "choices": [
+            {
+              "name": "Glas",
+              "price": 0
+            },
+            {
+              "name": "Flaska",
+              "price": 290
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "menuItemId": "mock-056",
+      "name": "Ruida Domo",
+      "description": "Ett torrt, friskt och fruktigt vin från La Mancha i Spanien från Enjoy Wines. Detta husvin har friska toner av gröna äpplen och mogen citrus, som skapar en lättsam och smakfull känsla.",
+      "price": 99,
+      "category": "vitt-vin",
+      "imageKey": null,
+      "alcohol": true,
+      "options": [
+        {
+          "name": "Storlek",
+          "required": true,
+          "maxChoices": 1,
+          "choices": [
+            {
+              "name": "Glas",
+              "price": 0
+            },
+            {
+              "name": "Flaska",
+              "price": 260
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "menuItemId": "mock-057",
+      "name": "Prosecco",
+      "description": "",
+      "price": 75,
+      "category": "mousserande",
+      "imageKey": null,
+      "alcohol": true,
+      "options": [
+        {
+          "name": "Storlek",
+          "required": true,
+          "maxChoices": 1,
+          "choices": [
+            {
+              "name": "Glas",
+              "price": 0
+            },
+            {
+              "name": "Flaska",
+              "price": 150
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "menuItemId": "mock-058",
+      "name": "Persian empire Arak saggi (iransk vodka)",
+      "description": "4 cl / 6 cl - 79 / 109 kr",
+      "price": 0,
+      "category": "shots",
+      "imageKey": null,
+      "alcohol": true
+    },
+    {
+      "menuItemId": "mock-059",
+      "name": "Persian empire Gold Arak saggi (iransk vodka)",
+      "description": "4 cl / 6 cl - 89 / 119 kr\nLagrad på ekfat 1,5 år",
+      "price": 0,
+      "category": "shots",
+      "imageKey": null,
+      "alcohol": true
+    },
+    {
+      "menuItemId": "mock-060",
+      "name": "Smirnoff Vodka Red",
+      "description": "4 cl / 6 cl - 59 / 79 kr",
+      "price": 0,
+      "category": "shots",
+      "imageKey": null,
+      "alcohol": true
+    },
+    {
+      "menuItemId": "mock-061",
+      "name": "Jägermeister",
+      "description": "4 cl / 6 cl - 69 / 89 kr",
+      "price": 0,
+      "category": "shots",
+      "imageKey": null,
+      "alcohol": true
+    },
+    {
+      "menuItemId": "mock-062",
+      "name": "Whisky (Jack Daniel’s)",
+      "description": "4 cl / 6 cl - 79 / 109 kr",
+      "price": 0,
+      "category": "shots",
+      "imageKey": null,
+      "alcohol": true
+    },
+    {
+      "menuItemId": "mock-063",
+      "name": "Hennessy (cognac)",
+      "description": "4 cl / 6 cl - 119 / 179 kr",
+      "price": 0,
+      "category": "shots",
+      "imageKey": null,
+      "alcohol": true
+    },
+    {
+      "menuItemId": "mock-064",
+      "name": "Rum (Havana Club)",
+      "description": "4 cl / 6 cl - 59 / 79 kr",
+      "price": 0,
+      "category": "shots",
+      "imageKey": null,
+      "alcohol": true
+    },
+    {
+      "menuItemId": "mock-065",
+      "name": "Tequila",
+      "description": "4 cl / 6 cl - 69 / 89 kr",
+      "price": 0,
+      "category": "shots",
+      "imageKey": null,
+      "alcohol": true
+    },
+    {
+      "menuItemId": "mock-066",
+      "name": "Absolut Vodka",
+      "description": "4 cl / 6 cl - 59 / 79 kr",
+      "price": 0,
+      "category": "shots",
+      "imageKey": null,
+      "alcohol": true
+    },
+    {
+      "menuItemId": "mock-067",
+      "name": "Corona Extra 4,5 %",
+      "description": "",
+      "price": 59,
+      "category": "ol-cider",
+      "imageKey": null,
+      "alcohol": true
+    },
+    {
+      "menuItemId": "mock-068",
+      "name": "Brooklyn Lager 5,2 %",
+      "description": "",
+      "price": 69,
+      "category": "ol-cider",
+      "imageKey": null,
+      "alcohol": true
+    },
+    {
+      "menuItemId": "mock-069",
+      "name": "Carlsberg Hof 4,2 %",
+      "description": "",
+      "price": 59,
+      "category": "ol-cider",
+      "imageKey": null,
+      "alcohol": true
+    },
+    {
+      "menuItemId": "mock-070",
+      "name": "Carlsberg Export 5 %",
+      "description": "",
+      "price": 59,
+      "category": "ol-cider",
+      "imageKey": null,
+      "alcohol": true
+    },
+    {
+      "menuItemId": "mock-071",
+      "name": "Heineken 5 %",
+      "description": "",
+      "price": 59,
+      "category": "ol-cider",
+      "imageKey": null,
+      "alcohol": true
+    },
+    {
+      "menuItemId": "mock-072",
+      "name": "Carlsberg Pilsner alkoholfri",
+      "description": "",
+      "price": 35,
+      "category": "ol-cider",
+      "imageKey": null,
+      "alcohol": true
+    },
+    {
+      "menuItemId": "mock-073",
+      "name": "Mariestads alkoholfri",
+      "description": "",
+      "price": 35,
+      "category": "ol-cider",
+      "imageKey": null,
+      "alcohol": true
+    },
+    {
+      "menuItemId": "mock-074",
+      "name": "IPA India Pale Ale",
+      "description": "",
+      "price": 69,
+      "category": "ol-cider",
+      "imageKey": null,
+      "alcohol": true
+    },
+    {
+      "menuItemId": "mock-075",
+      "name": "Ship Full of IPA",
+      "description": "",
+      "price": 69,
+      "category": "ol-cider",
+      "imageKey": null,
+      "alcohol": true
+    },
+    {
+      "menuItemId": "mock-076",
+      "name": "Smirnoff Ice Double Black 4,7 % (Italien)",
+      "description": "",
+      "price": 69,
+      "category": "ol-cider",
+      "imageKey": null,
+      "alcohol": true
+    },
+    {
+      "menuItemId": "mock-077",
+      "name": "Smirnoff Ice Tropical 4 % (Italien)",
+      "description": "",
+      "price": 69,
+      "category": "ol-cider",
+      "imageKey": null,
+      "alcohol": true
+    },
+    {
+      "menuItemId": "mock-078",
+      "name": "Kopparberg strawberry & lime 4,5 % (Sverige)",
+      "description": "",
+      "price": 59,
+      "category": "ol-cider",
+      "imageKey": null,
+      "alcohol": true
+    },
+    {
+      "menuItemId": "mock-079",
+      "name": "Flaska 500 ml",
+      "description": "",
+      "price": 0,
+      "category": "ol-cider",
+      "imageKey": null,
+      "options": [
+        {
+          "name": "Sort",
+          "required": true,
+          "maxChoices": 1,
+          "choices": [
+            {
+              "name": "Mariestads 6,9 %",
+              "price": 0
+            },
+            {
+              "name": "Norrlands Guld 6,9 %",
+              "price": 0
+            },
+            {
+              "name": "Norrlands Djup Lager 6,8 %",
+              "price": 0
+            },
+            {
+              "name": "Guldkällan 5 %",
+              "price": 0
+            },
+            {
+              "name": "Bryggmästarens 5,7 %",
+              "price": 0
+            },
+            {
+              "name": "Falcon 5,2 %",
+              "price": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "menuItemId": "mock-080",
+      "name": "Kobideh",
+      "description": "Två kolgrillade spett av saftigt köttfärs, långsamt grillade över öppen kol för att utveckla en djup och fyllig smak. Serveras med kolgrillad tomat, klassisk piaz jafari (finhackad rödlök och persilja), smör, sumak samt doftande saffransris. Rätten kompletteras med 1 dl mast-o-khiar, serverad vid sidan.",
+      "price": 189,
+      "category": "kolgrill",
+      "imageKey": null
+    },
+    {
+      "menuItemId": "mock-081",
+      "name": "Chenje",
+      "description": "Kolgrillade bitar av lammstek, långsamt grillade över öppen kol för att utveckla en djup och aromatisk smak, varsamt kryddade med lök och nymalen svartpeppar. Serveras med kolgrillad tomat, klassisk piaz jafari (finhackad rödlök och persilja), smör, sumak samt doftande saffransris, vars arom fulländar helheten. Rätten kompletteras med 1 dl mast-o-khiar, serverad vid sidan.",
+      "price": 175,
+      "category": "kolgrill",
+      "imageKey": null
+    },
+    {
+      "menuItemId": "mock-082",
+      "name": "Joojeh",
+      "description": "Kolgrillad kycklingfilé, varsamt marinerad med saffran, lök, färsk citron och paprika, långsamt grillad över glödande kol för att framhäva en djup, aromatisk och balanserad smak. Ackompanjeras av kolgrillad tomat, klassisk piaz jafari (rödlök och persilja), smör, sumak samt doftande saffransris som elegant binder samman rätten. Rätten kompletteras med 1 dl mast-o-khiar, serverad vid sidan.",
+      "price": 179,
+      "category": "kolgrill",
+      "imageKey": null
+    },
+    {
+      "menuItemId": "mock-083",
+      "name": "Kabab torsh (sursött)",
+      "description": "Kolgrillade bitar av lammstek, marinerade med granatäpplesirap, valnötter, lök och vitlök, varsamt grillade över glödande kol för att skapa en djup, elegant balans mellan sötma och fyllighet. Serveras med kolgrillad tomat, klassisk piaz jafari (rödlök och persilja), smör, sumak samt doftande saffransris som fulländar rätten. Rätten kompletteras med 1 dl mast-o-khiar, serverad vid sidan.",
+      "price": 179,
+      "category": "kolgrill",
+      "imageKey": null
+    },
+    {
+      "menuItemId": "mock-084",
+      "name": "Mix kabab",
+      "description": "En generös kombination av ett spett med möra bitar av lamm (chenje) och ett spett med saftig saffransmarinerad kyckling (joojeh), varsamt grillade över öppen kol för maximal smak och saftighet. Serveras med kolgrillad tomat, klassisk piaz jafari (blandad rödlök och persilja), smör, sumak samt aromatiskt saffransris. Rätten kompletteras med 1 dl mast-o-khiar, serverad vid sidan.",
+      "price": 229,
+      "category": "kolgrill",
+      "imageKey": null
+    },
+    {
+      "menuItemId": "mock-085",
+      "name": "Bakhtiari",
+      "description": "En smakrik kombination på samma spett av möra bitar av lamm (chenje) och saftig saffransmarinerad kyckling (joojeh), varsamt grillade över öppen kol. Serveras med kolgrillad tomat, traditionell piaz jafari (blandad rödlök med persilja), smör, sumak samt doftande saffransris som binder samman rätten. Rätten kompletteras med 1 dl mast-o-khiar, serverad vid sidan.",
+      "price": 199,
+      "category": "kolgrill",
+      "imageKey": null
+    },
+    {
+      "menuItemId": "mock-086",
+      "name": "Kabab Vaziri",
+      "description": "En generös kombination av två spett - klassisk kobideh av saftigt kryddad köttfärs och saftig saffransmarinerad kyckling (joojeh) - grillade över öppen kol för intensiv smak och perfekt saftighet. Serveras med kolgrillad tomat, klassisk piaz jafari (blandad rödlök och persilja), smör, sumak samt aromatiskt saffransris. Avslutas med 1 dl mast-o-khiar, serverad vid sidan.",
+      "price": 229,
+      "category": "kolgrill",
+      "imageKey": null
+    },
+    {
+      "menuItemId": "mock-087",
+      "name": "Kase kabab",
+      "description": "En generös blandning av fem olika persiska kabab i en skål: klassisk kobideh av saftigt kryddad köttfärs, möra bitar av lamm (chenje), saffransmarinerad kyckling (joojeh), smakrik kabab torsh samt negini kabab. Varsamt tillagade för maximal smak och variation. Serveras med kolgrillad tomat, traditionell piaz jafari (blandad rödlök och persilja), smör, sumak samt aromatiskt saffransris. Avslutas med 1 dl mast-o-khiar, serverad vid sidan.",
+      "price": 239,
+      "category": "kolgrill",
+      "imageKey": null
+    },
+    {
+      "menuItemId": "mock-088",
+      "name": "Kabab Darband",
+      "description": "Ett spett med klassisk kobideh av saftigt kryddad köttfärs och ett spett med möra bitar av lamm (chenje), varsamt grillade över öppen kol för maximal smak och saftighet. Serveras med kolgrillad tomat, traditionell piaz jafari (blandad rödlök med persilja), smör, sumak samt doftande saffransris. Rätten kompletteras med 1 dl mast-o-khiar, serverad vid sidan.",
+      "price": 229,
+      "category": "kolgrill",
+      "imageKey": null
+    },
+    {
+      "menuItemId": "mock-089",
+      "name": "Vegan kabab",
+      "description": "Kolgrillade grönsaker (zucchini, paprika, champinjoner, lök, tomat). Serveras med piaz jafari (blandad rödlök med persilja), sumak och saffransris. Ingår 1 dl mast-o-khiar.",
+      "price": 99,
+      "category": "kolgrill",
+      "imageKey": null
+    },
+    {
+      "menuItemId": "mock-090",
+      "name": "Sini kabab (för 2 personer)",
+      "description": "En generös blandning av fem olika persiska kabab på spett: klassisk kobideh av saftigt kryddad köttfärs, möra bitar av lamm (chenje), saffransmarinerad kyckling (joojeh), smakrik kabab torsh med syrlig karaktär samt negini kabab - noggrant skurna köttbitar grillade över öppen kol för djup smak och saftighet. Serveras med kolgrillade tomater, traditionell piaz jafari (blandad rödlök och persilja), smör, sumak samt aromatiskt saffransris. Rätten kompletteras med 2 dl mast-o-khiar, serverad vid sidan.\nPerfekt som sharing platter för två personer.",
+      "price": 449,
+      "category": "kolgrill",
+      "imageKey": null
+    },
+    {
+      "menuItemId": "mock-091",
+      "name": "Zereshk-polo ba morgh",
+      "description": "Marinerad kycklingklubba i tomatsås, serveras med saffransris toppat med zereshk (berberisbär), mandelskivor, skivad söt apelsinskal och pistaschskivor. Ingår 1 dl mast-o-khiar.",
+      "price": 150,
+      "category": "lunch-varm",
+      "imageKey": null
+    },
+    {
+      "menuItemId": "mock-092",
+      "name": "Mosama morgh",
+      "description": "Marinerad kycklingklubba i tomatsås, stekt aubergine, serveras med saffransris toppat med zereshk (berberisbär). Ingår 1 dl mast-o-khiar.",
+      "price": 150,
+      "category": "lunch-varm",
+      "imageKey": null
+    },
+    {
+      "menuItemId": "mock-093",
+      "name": "Ghormeh-sabzi",
+      "description": "Lammgryta med bönor och torkad lime, stekta ghormeh-grönsaker (persilja, koriander, gräslök, bockhornsklöver), serveras med saffransris toppat med zereshk (berberisbär). Ingår 1 dl mast-o-khiar.",
+      "price": 150,
+      "category": "lunch-varm",
+      "imageKey": null
+    },
+    {
+      "menuItemId": "mock-094",
+      "name": "Gheymeh ba sibzamini",
+      "description": "Lammgryta med gula linser, torkad lime, tomatpuré och pommes. Serveras med saffransris toppat med zereshk (berberisbär). Ingår 1 dl mast-o-khiar.",
+      "price": 150,
+      "category": "lunch-varm",
+      "imageKey": null
+    },
+    {
+      "menuItemId": "mock-095",
+      "name": "Gheymeh ba badenjan",
+      "description": "Lammgryta med gula linser, torkad lime, tomatpuré och stekt aubergine. Serveras med saffransris toppat med zereshk (berberisbär). Ingår 1 dl mast-o-khiar.",
+      "price": 150,
+      "category": "lunch-varm",
+      "imageKey": null
+    },
+    {
+      "menuItemId": "mock-096",
+      "name": "Khoreshte bamieh (vegan)",
+      "description": "Okra, morot, lök, tomatpuré, pommes, serveras med saffransris toppat med zereshk (berberisbär).",
+      "price": 150,
+      "category": "lunch-varm",
+      "imageKey": null
+    },
+    {
+      "menuItemId": "mock-097",
+      "name": "Khoreshe kado va bademjan (vegan)",
+      "description": "Stekt aubergine, stekt zucchini, tomatpuré, serveras med saffransris toppat med zereshk (berberisbär). Ingår 1 dl mast-o-khiar.",
+      "price": 150,
+      "category": "lunch-varm",
+      "imageKey": null
+    },
+    {
+      "menuItemId": "mock-098",
+      "name": "Bakhtiari",
+      "description": "En blandning av chenje och joojeh på samma spett. Serveras med kolgrillad tomat, piaz jafari (blandad rödlök med persilja), smör, sumak och saffransris.",
+      "price": 150,
+      "category": "lunch-kabab",
+      "imageKey": null
+    },
+    {
+      "menuItemId": "mock-099",
+      "name": "Chenje",
+      "description": "Kolgrillade lammsteksbitar smaksatta med lök och svartpeppar. Serveras med kolgrillad tomat, piaz jafari (blandad rödlök med persilja), smör, sumak och saffransris.",
+      "price": 150,
+      "category": "lunch-kabab",
+      "imageKey": null
+    },
+    {
+      "menuItemId": "mock-100",
+      "name": "Kobideh",
+      "description": "Kolgrillad köttfärs, två spett, serveras med kolgrillad tomat, piaz jafari (blandad rödlök med persilja), smör, sumak och saffransris. Ingår 1 dl mast-o-khiar.",
+      "price": 150,
+      "category": "lunch-kabab",
+      "imageKey": null
+    },
+    {
+      "menuItemId": "mock-101",
+      "name": "Joojeh",
+      "description": "Kolgrillad kycklingfilé smaksatt med saffran, lök, färsk citron, röd chili och färsk paprika. Serveras med kolgrillad tomat, piaz jafari (blandad rödlök med persilja), smör, sumak och saffransris.",
+      "price": 150,
+      "category": "lunch-kabab",
+      "imageKey": null
+    },
+    {
+      "menuItemId": "mock-102",
+      "name": "Vegan kabab",
+      "description": "Kolgrillade grönsaker (zucchini, paprika, champinjoner, lök, tomat). Serveras med piaz jafari (blandad rödlök med persilja), sumak och saffransris. Ingår 1 dl mast-o-khiar.",
+      "price": 99,
+      "category": "lunch-kabab",
+      "imageKey": null
+    }
+  ],
+  "categories": [
+    {
+      "categoryId": "forratter",
+      "name": "Förrätter"
+    },
+    {
+      "categoryId": "klassiska",
+      "name": "Klassiska Rätter"
+    },
+    {
+      "categoryId": "helg",
+      "name": "Helgens kulinariska urval"
+    },
+    {
+      "categoryId": "sidor",
+      "name": "Sidorätter"
+    },
+    {
+      "categoryId": "efterratt",
+      "name": "Efterrätter"
+    },
+    {
+      "categoryId": "trad-dryck",
+      "name": "Traditionella drycker"
+    },
+    {
+      "categoryId": "drycker",
+      "name": "Drycker"
+    },
+    {
+      "categoryId": "drinkar",
+      "name": "Drinkar"
+    },
+    {
+      "categoryId": "rott-vin",
+      "name": "Rött vin"
+    },
+    {
+      "categoryId": "rose-vin",
+      "name": "Rosévin"
+    },
+    {
+      "categoryId": "vitt-vin",
+      "name": "Vitt vin"
+    },
+    {
+      "categoryId": "mousserande",
+      "name": "Mousserande"
+    },
+    {
+      "categoryId": "shots",
+      "name": "Shots"
+    },
+    {
+      "categoryId": "ol-cider",
+      "name": "Öl & cider"
+    },
+    {
+      "categoryId": "kolgrill",
+      "name": "Kolgrill"
+    },
+    {
+      "categoryId": "lunch-varm",
+      "name": "Dagens lunch: Klassiska varmrätter"
+    },
+    {
+      "categoryId": "lunch-kabab",
+      "name": "Dagens lunch: Kabab"
+    }
+  ]
+}

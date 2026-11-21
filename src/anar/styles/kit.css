@@ -1,0 +1,309 @@
+/* Kitets flöden (boka, beställ, catering, juridik) på Anars mörka bakgrund.
+   Kitet läser färger och typsnitt från CSS-variabler; här sätts Anars:
+   mörk papperston, vinrött och guld (samma som order-bar.css). Sajten är
+   alltid mörk, så kitets mörka tema tvingas fram (data-theme i index.html). */
+
+:root,
+:root[data-theme='dark'],
+:root[data-theme='light'] {
+  --table: #0a0606;
+  --table-2: #120a0a;
+  --bg: #0a0606;
+  --surface: #1a0f0f;
+  --fill: #241616;
+  --surface-glass: #1a0f0f;
+  --page-scrim: rgba(10, 6, 6, 0.9);
+  --border: rgba(255, 245, 238, 0.14);
+  --line: rgba(255, 245, 238, 0.16);
+  --paper-line: rgba(255, 245, 238, 0.18);
+  --ink: #fff8f2;
+  --muted: rgba(255, 245, 238, 0.7);
+  --accent: #c9a66b;
+  --accent-ink: #e8d4b8;
+  --on-accent: #1a0a0a;
+  --focus-ring: #e8d4b8;
+  --focus-halo: #1a0f0f;
+  --font: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --serif: 'Cormorant Garamond', Georgia, serif;
+  --sans: var(--font);
+  --r-sm: 2px;
+  --r-md: 2px;
+  --r-lg: 2px;
+  --r-pill: 2px;
+  /* Bordsvalet i Anars färger: varmt grädde som andas = går att boka, fylld
+     guld = ditt val, dämpat glödrött = bokat, nästan bortsuddat = fel storlek. */
+  --seat-free: #e6d1a6;
+  --seat-free-hi: #fbefd5;
+  --seat-free-ink: #1a0a0a;
+  --seat-free-hover: #f1e0bd;
+  --seat-free-line: #c9a66b;
+  --seat-free-side: #9a7d4c;
+  --seat-glow: rgba(232, 190, 110, 0.6);
+  --seat-ring: #e8c98a;
+  --seat-pick: #c9a66b;
+  --seat-pick-line: #f0d9a8;
+  --seat-pick-side: #8a6834;
+  --seat-pick-ink: #1a0a0a;
+  --seat-taken: #6b2925;
+  --seat-taken-line: #b0574d;
+  --seat-taken-side: #4a1c19;
+  --seat-blocked: #46221f;
+  --seat-unfit: #2b221e;
+  --seat-unfit-line: #6b5c50;
+  color-scheme: dark;
+}
+
+/* Ram runt flödena på sidor som inte är Anars egna (boka, beställ, juridik) */
+.kit-page {
+  flex: 1;
+  width: 100%;
+  max-width: min(72rem, 100%);
+  margin: 0 auto;
+  padding: clamp(0.75rem, 3vw, 2rem) clamp(1rem, 3vw, 1.5rem) clamp(1.5rem, 4vw, 3rem);
+  box-sizing: border-box;
+}
+
+.kit-panel {
+  width: 100%;
+  box-sizing: border-box;
+  padding: clamp(1rem, 3vw, 2rem);
+  color: var(--ink);
+  background: rgba(10, 6, 6, 0.78);
+  border: 1px solid rgba(255, 245, 238, 0.14);
+  border-radius: 2px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 8px 36px rgba(0, 0, 0, 0.4);
+}
+
+/* Startsidan: panelen följer kolumnen, inte hela bredden */
+.desk-split .kit-panel {
+  padding: clamp(0.85rem, 2vw, 1.25rem);
+}
+
+.site-footer-legal {
+  justify-self: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.25rem 1rem;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+}
+
+.site-footer-legal a {
+  color: rgba(255, 245, 238, 0.7);
+  text-decoration: none;
+}
+
+.site-footer-legal a:hover {
+  color: #fff;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.site-footer-booqy {
+  vertical-align: middle;
+  margin-inline-start: 0.2em;
+}
+
+/* Kitets rullistor (portal i body): Anars mörka glas och guld */
+.combo-pop {
+  background: rgba(18, 11, 9, 0.96);
+  border-color: rgba(201, 166, 107, 0.35);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 14px 44px rgba(0, 0, 0, 0.5);
+}
+
+.combo-option {
+  color: rgba(255, 245, 238, 0.88);
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.combo-option.is-active,
+.combo-option:hover {
+  background: rgba(201, 166, 107, 0.16);
+  color: #fff8f2;
+}
+
+.combo-option.is-selected {
+  color: #e8d4b8;
+}
+
+/* Flödets rubrik och stegrad i Anars panel (startsidan och flödessidorna).
+   Stegen är lika breda kolumner med en numrerad prick och namnet
+   under; linjen mellan prickarna är streckad framåt och hel bakåt. Smal
+   panel: bara det aktuella stegets namn (kitets regel), raden behåller höjden. */
+.kit-panel .page-head {
+  padding: clamp(0.25rem, 1vw, 0.75rem) 0 1.25rem;
+  scroll-margin-top: 1rem;
+}
+
+.kit-panel .page-head h1 {
+  margin: 0;
+  font: 600 clamp(2rem, 1.6rem + 1.4vw, 2.75rem) / 1.1 'Cormorant Garamond', Georgia, serif;
+  font-stretch: normal;
+  letter-spacing: 0.02em;
+  color: rgba(255, 248, 242, 0.98);
+}
+
+.kit-panel .page-lede {
+  margin: 0.4rem 0 0;
+  max-width: 40ch;
+  font: 400 0.98rem / 1.5 'Outfit', sans-serif;
+  color: rgba(255, 245, 238, 0.72);
+}
+
+.kit-panel .flow {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr);
+  align-items: start;
+  gap: 0;
+  margin: 1.25rem 0 0;
+  padding: 0;
+}
+
+.kit-panel .flow-step,
+.kit-panel .flow-step + .flow-step {
+  position: relative;
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+  min-height: calc(28px + 0.5rem + 2.5em);
+  text-align: center;
+  font: 500 0.68rem / 1.25 'Outfit', sans-serif;
+  font-stretch: normal;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 245, 238, 0.55);
+}
+
+/* Linjen från föregående prick till den här (mitt till mitt, med luft runt prickarna) */
+.kit-panel .flow-step + .flow-step::before {
+  content: '';
+  position: absolute;
+  top: 13px;
+  inset-inline-start: calc(-50% + 20px);
+  inset-inline-end: calc(50% + 20px);
+  min-width: 0;
+  height: 0;
+  margin: 0;
+  border-top: 1.5px dashed rgba(201, 166, 107, 0.38);
+}
+
+.kit-panel .flow-step.is-done + .flow-step::before {
+  border-top-style: solid;
+  border-top-color: #c9a66b;
+}
+
+.kit-panel .flow-no {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(14, 9, 8, 0.92);
+  box-shadow: inset 0 0 0 1.5px rgba(201, 166, 107, 0.45);
+  font: 600 0.78rem / 1 'Outfit', sans-serif;
+  color: rgba(255, 245, 238, 0.75);
+  transform: none;
+}
+
+.kit-panel .flow-no svg {
+  width: 14px;
+  height: 14px;
+}
+
+.kit-panel .flow-step.is-done .flow-no {
+  background: #c9a66b;
+  color: #1a0a0a;
+  box-shadow: none;
+}
+
+.kit-panel .flow-step.is-current .flow-no {
+  background: linear-gradient(160deg, #e8d4b8 0%, #c9a66b 45%, #a67d33 100%);
+  color: #1a0a0a;
+  box-shadow: 0 0 0 4px rgba(201, 166, 107, 0.2);
+  transform: none;
+}
+
+.kit-panel .flow-label {
+  max-width: 100%;
+  padding-inline: 2px;
+  white-space: normal;
+  text-wrap: balance;
+}
+
+.kit-panel .flow-step.is-current .flow-label {
+  color: rgba(255, 248, 242, 0.98);
+  font-weight: 600;
+}
+
+.kit-panel .flow-step.is-done .flow-label {
+  color: rgba(232, 212, 184, 0.85);
+}
+
+/* Panelen bred nog (en kolumn från 520 px, två kolumner från 960 px): alla
+   stegnamn syns. Smalare: bara det aktuella (kitets regel under 640 px). */
+@media (min-width: 520px) and (max-width: 800px), (min-width: 960px) {
+  .kit-panel .flow-step:not(.is-current) .flow-label {
+    position: static;
+    width: auto;
+    height: auto;
+    clip: auto;
+    overflow: visible;
+  }
+}
+
+@media (min-width: 801px) and (max-width: 959px), (max-width: 519px) {
+  .kit-panel .flow-step:not(.is-current) .flow-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+}
+
+/* Menysidornas laddning/fel/tom meny */
+.meny-state {
+  max-width: 36rem;
+  margin: 1rem auto 0;
+  padding: 1.5rem 1.6rem;
+  text-align: center;
+  font-family: 'Outfit', sans-serif;
+  color: rgba(255, 245, 238, 0.85);
+  background: linear-gradient(135deg, rgba(20, 14, 12, 0.5), rgba(12, 9, 8, 0.55));
+  border: 1px solid rgba(201, 166, 107, 0.24);
+  border-radius: 12px;
+}
+
+.meny-state p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.meny-state-retry {
+  margin-top: 1rem;
+  padding: 0.6rem 1.4rem;
+  font: 600 0.9rem 'Outfit', sans-serif;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 248, 242, 0.95);
+  background: rgba(12, 8, 6, 0.55);
+  border: 1px solid rgba(201, 166, 107, 0.5);
+  border-radius: 4px;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.meny-state-retry:hover {
+  border-color: rgba(232, 212, 184, 0.9);
+  background: rgba(40, 26, 18, 0.7);
+}

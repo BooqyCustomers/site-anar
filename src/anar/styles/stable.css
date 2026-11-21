@@ -1,0 +1,16 @@
+/*
+ * Inga hopp när sidan laddas (Core Web Vitals, CLS; e2e/specs/ux.spec.ts).
+ * Sidorna och kitets flöden laddas in efter skalet; utan reserverad plats
+ * hoppar sidfoten, länkarna ovanför den och kartan på startsidan ner.
+ */
+
+/* Sidans innehåll (eller skelettet medan det laddas) tar minst en skärmhöjd. */
+.landing-content > main,
+.landing-content > .skel {
+  min-height: 100svh;
+}
+
+/* Startsidan: bokningen har sin höjd från början, så kartan under står still. */
+.desk-split .kit-panel {
+  min-height: 720px;
+}

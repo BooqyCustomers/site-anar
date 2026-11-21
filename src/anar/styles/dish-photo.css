@@ -1,0 +1,23 @@
+/* Rättens foto från Booqy (DishPhoto.jsx): flyter till höger, texten går runt.
+   Höjden reserveras med aspect-ratio så att sidan inte hoppar när fotot laddas. */
+
+.dish-photo {
+  float: right;
+  width: clamp(5.5rem, 24vw, 9rem);
+  aspect-ratio: 4 / 3;
+  margin: 0 0 0.6rem 1rem;
+  object-fit: cover;
+  object-position: var(--dish-photo-position, 50% 50%);
+  border-radius: 6px;
+  border: 1px solid rgba(201, 166, 107, 0.35);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+  background: rgba(255, 248, 242, 0.06);
+}
+
+/* Rutan rymmer fotot även när rättens text är kortare än det */
+.meny-dish,
+.meny-sublist,
+.dagens-dish,
+.kolgrill-dish {
+  display: flow-root;
+}
