@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import type { MenuCategoryEntry, PublicMenuItem, cateringApi } from '@bookingsystemadvancedorg/site-kit'
-import { EMPTY_CHOICE, ESTIMATE_NOTE, approxOre, breakdown, buildUnits, hasAutoQuantities, quantities, roleOfCategory, selectionFields } from './selection'
+import { EMPTY_CHOICE, ESTIMATE_NOTE, GROUPS, approxOre, breakdown, buildUnits, hasAutoQuantities, quantities, roleOfCategory, selectionFields } from './selection'
 import type { Choice } from './selection'
 
 const category = (categoryId: string, name: string): MenuCategoryEntry => ({ categoryId, name })
@@ -36,7 +36,8 @@ const cateringMenu: cateringApi.CateringMenu = {
   dishes: [dish('d1', 'Burrata', 135), dish('d2', 'Toast Skagen', 145), dish('d3', 'Grillad lax', 245), dish('d4', 'Kladdkaka', 95), dish('d5', 'Äppelmust', 45), dish('d6', 'Lättöl', 45), dish('d7', 'Dagens fisk', 135), dish('d8', 'Finns inte i menyn', 50)],
 }
 
-const choose = (ids: string[], over: Partial<Choice> = {}): Choice => ({ ...EMPTY_CHOICE, picked: new Set(ids), ...over })
+// Om inget annat sägs vill gästen ha alla delar av menyn: testerna handlar då om själva valet.
+const choose = (ids: string[], over: Partial<Choice> = {}): Choice => ({ ...EMPTY_CHOICE, wanted: new Set(GROUPS.map((g) => g.role)), picked: new Set(ids), ...over })
 
 describe('roleOfCategory', () => {
   it('knows courses and drinks by the heading the restaurant gave the category', () => {
@@ -150,6 +151,23 @@ describe('quantities', () => {
   it('"other" (what cannot be worked out) only counts what the guest types, picked or not', () => {
     const q = quantities(units, choose([], { otherQty: { [id('Finns inte i menyn')]: 40 } }), 30)
     expect([...q.entries()]).toEqual([[id('Finns inte i menyn'), 40]])
+  })
+
+  it("counts only the parts of the menu the guest wants: a part that is not wanted is left out even if something is picked in it", () => {
+    const picks = [id('Burrata'), id('Grillad lax'), id('Kladdkaka'), id('Äppelmust')]
+    // bara varmrätt och dryck önskas: förrätten och efterrätten räknas inte
+    const q = quantities(units, choose(picks, { wanted: new Set(['main', 'drink'] as const) }), 30)
+    expect([...q.keys()].sort()).toEqual([id('Grillad lax'), id('Äppelmust')].sort())
+    // inget önskat alls: ingen mängd, hur mycket som än är valt
+    expect(quantities(units, choose(picks, { wanted: new Set() }), 30).size).toBe(0)
+    // önskas delen igen är valet kvar
+    expect(quantities(units, choose(picks), 30).size).toBe(4)
+  })
+
+  it('"other" only counts when that part is wanted', () => {
+    const own = { otherQty: { [id('Finns inte i menyn')]: 40 } }
+    expect(quantities(units, choose([], { ...own, wanted: new Set(['main'] as const) }), 30).size).toBe(0)
+    expect(quantities(units, choose([], { ...own, wanted: new Set(['other'] as const) }), 30).size).toBe(1)
   })
 
   it('keeps every quantity within what the server accepts', () => {

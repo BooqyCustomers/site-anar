@@ -31,6 +31,12 @@ export interface Unit {
 export type DrinkMode = 'perGuest' | 'custom'
 
 export interface Choice {
+  /**
+   * Vilka delar av menyn gästen vill ha (förrätt, varmrätt, efterrätt, dryck, ...).
+   * Bara rätter i dessa delar räknas med och visas: tas en del bort ligger gästens val
+   * i den kvar, och kommer tillbaka om delen väljs igen.
+   */
+  wanted: ReadonlySet<Role>
   /** Valda förrätter, huvudrätter, efterrätter, drycker och paket (inte "övrigt"). */
   picked: ReadonlySet<string>
   /** Drycker: en av varje per gäst, eller gästens egna antal. */
@@ -40,7 +46,7 @@ export interface Choice {
   otherQty: Readonly<Record<string, number>>
 }
 
-export const EMPTY_CHOICE: Choice = { picked: new Set(), drinkMode: 'perGuest', drinkQty: {}, otherQty: {} }
+export const EMPTY_CHOICE: Choice = { wanted: new Set(), picked: new Set(), drinkMode: 'perGuest', drinkQty: {}, otherQty: {} }
 
 /** Servern tar högst så här många av en rätt (samma gräns som kitets antalsfält). */
 export const MAX_QUANTITY = 5000
@@ -156,7 +162,11 @@ export function quantities(units: readonly Unit[], choice: Choice, guests: numbe
   const out = new Map<string, number>()
   if (!(guests > 0)) return out
 
+  // En del av menyn som gästen inte vill ha räknas inte med, även om något är valt i den.
+  const wants = (role: Role) => choice.wanted.has(role)
+
   for (const role of ['package', 'starter', 'main', 'dessert'] as const) {
+    if (!wants(role)) continue
     const picked = units.filter((u) => u.role === role && choice.picked.has(u.id))
     const n = picked.length
     if (n === 0) continue
@@ -165,11 +175,11 @@ export function quantities(units: readonly Unit[], choice: Choice, guests: numbe
     const extra = guests >= n ? guests % n : 0
     picked.forEach((u, i) => out.set(u.id, Math.min(MAX_QUANTITY, base + (i < extra ? 1 : 0))))
   }
-  for (const u of units.filter((x) => x.role === 'drink' && choice.picked.has(x.id))) {
+  for (const u of wants('drink') ? units.filter((x) => x.role === 'drink' && choice.picked.has(x.id)) : []) {
     const q = choice.drinkMode === 'perGuest' ? guests : (choice.drinkQty[u.id] ?? guests)
     if (q > 0) out.set(u.id, Math.min(MAX_QUANTITY, Math.round(q)))
   }
-  for (const u of units.filter((x) => x.role === 'other')) {
+  for (const u of wants('other') ? units.filter((x) => x.role === 'other') : []) {
     const q = choice.otherQty[u.id] ?? 0
     if (q > 0) out.set(u.id, Math.min(MAX_QUANTITY, Math.round(q)))
   }

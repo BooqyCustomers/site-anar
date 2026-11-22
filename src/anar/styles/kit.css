@@ -155,6 +155,19 @@
   display: none;
 }
 
+/* Bokningens 2D-plan ska rymmas i bredden, som 3D-planen, utan att man behöver scrolla i sidled. Kitet ger planen
+   en minsta bredd på 620 px och en rullningsruta under 700 px; bort med båda, så skalas planen ner. Borden går
+   också att välja med knapparna under planen. */
+.floor-wrap .floor-svg-frame {
+  min-width: 0;
+}
+
+@media (max-width: 700px) {
+  .floor-wrap {
+    overflow-x: visible;
+  }
+}
+
 /* Flödets rubrik och stegrad i Anars panel (startsidan och flödessidorna).
    Stegen är lika breda kolumner med en numrerad prick och namnet
    under; linjen mellan prickarna är streckad framåt och hel bakåt. Smal

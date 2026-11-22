@@ -7,9 +7,17 @@ function Probe({ paused = false }: { paused?: boolean }) {
   const ref = useRef<HTMLElement>(null)
   const { hidden, stuck } = useHideOnScroll(ref, { paused })
   return (
-    <header ref={ref} data-testid="header" data-hidden={String(hidden)} data-stuck={String(stuck)}>
-      <a href="#x">länk</a>
-    </header>
+    <>
+      <header ref={ref} data-testid="header" data-hidden={String(hidden)} data-stuck={String(stuck)}>
+        <a href="#x">länk</a>
+      </header>
+      <nav>
+        <a href="#sektion">hoppa</a>
+        <a href="#saknas">hoppa till inget</a>
+        <a href="#">upp</a>
+      </nav>
+      <section id="sektion" />
+    </>
   )
 }
 
@@ -43,6 +51,7 @@ beforeEach(() => {
 })
 
 afterEach(() => {
+  vi.useRealTimers()
   vi.unstubAllGlobals()
   scrollTo(0)
 })
@@ -122,6 +131,83 @@ describe('useHideOnScroll', () => {
       screen.getByRole('link', { name: 'länk', hidden: true }).focus()
     })
     expect(state().hidden).toBe(false)
+  })
+
+  describe('anchor links (the category chips)', () => {
+    const clickJump = (name: string) =>
+      act(() => {
+        fireEvent.click(screen.getByRole('link', { name }))
+      })
+    const wait = (ms: number) =>
+      act(() => {
+        vi.advanceTimersByTime(ms)
+      })
+
+    it('does not show the header for a jump up, so the section is not hidden behind it', () => {
+      vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] })
+      render(<Probe />)
+      scrollTo(900)
+      expect(state().hidden).toBe(true)
+      clickJump('hoppa')
+      scrollTo(500) // hoppet uppåt: utan lås skulle headern visas här
+      scrollTo(120)
+      expect(state().hidden).toBe(true)
+      wait(200) // scrollen har stått still: hoppet är klart
+      scrollTo(60)
+      expect(state().hidden).toBe(false) // nära toppen visas den som vanligt
+    })
+
+    it('does not hide the header for a jump down, so there is no gap above the section', () => {
+      vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] })
+      render(<Probe />)
+      scrollTo(60)
+      expect(state().hidden).toBe(false)
+      clickJump('hoppa')
+      scrollTo(700)
+      scrollTo(1400)
+      expect(state().hidden).toBe(false)
+      expect(state().stuck).toBe(true) // bakgrunden följer ändå med
+    })
+
+    it('keeps waiting while the jump scrolls, and takes the scroll position as the new start', () => {
+      vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] })
+      render(<Probe />)
+      scrollTo(900)
+      clickJump('hoppa')
+      for (const y of [800, 600, 400, 300]) {
+        wait(100) // kortare än stilleståndet: hoppet pågår fortfarande
+        scrollTo(y)
+        expect(state().hidden).toBe(true)
+      }
+      wait(200)
+      // nästa riktiga scroll uppåt räknas från där hoppet slutade
+      scrollTo(270)
+      expect(state().hidden).toBe(false)
+    })
+
+    it('lets go when the target is already in view and nothing scrolls', () => {
+      vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] })
+      render(<Probe />)
+      scrollTo(600)
+      clickJump('hoppa')
+      wait(700)
+      scrollTo(500)
+      expect(state().hidden).toBe(false)
+    })
+
+    it('ignores links to nothing on the page and a bare #', () => {
+      vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] })
+      render(<Probe />)
+      scrollTo(600)
+      clickJump('hoppa till inget')
+      scrollTo(400)
+      expect(state().hidden).toBe(false)
+      scrollTo(700)
+      expect(state().hidden).toBe(true)
+      clickJump('upp')
+      scrollTo(500)
+      expect(state().hidden).toBe(false)
+    })
   })
 
   it('starts "stuck" when the page is opened already scrolled', () => {

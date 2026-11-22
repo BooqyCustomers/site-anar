@@ -13,6 +13,7 @@ import DagensLunchBackground from '../components/DagensLunchBackground';
 import Header from '../components/Header';
 import OrderBar from '../components/OrderBar';
 import Footer from '../components/Footer';
+import LegalPopups from '../components/LegalPopups';
 import MobilePreFooterNav from '../components/MobilePreFooterNav';
 import Seo from '../components/Seo';
 import { useLanguage } from '../i18n/LanguageContext';
@@ -96,6 +97,7 @@ export default function SiteLayout() {
         <Footer>
           <MobilePreFooterNav />
         </Footer>
+        <LegalPopups />
       </div>
     </div>
   );

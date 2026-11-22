@@ -1,4 +1,4 @@
-import { render, screen, within } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom'
 import { afterEach, describe, expect, it, vi } from 'vitest'
@@ -133,12 +133,45 @@ describe('App on SiteProvider', () => {
     await userEvent.click(screen.getAllByRole('link', { name: 'Catering' })[0])
 
     expect(await screen.findByRole('heading', { level: 1, name: 'Räkna på catering' })).toBeInTheDocument()
-    // Att kryssa i, inte ett antal att skriva: mängden räknas ut åt gästen.
+    // Först vilka delar av menyn gästen vill ha, sedan rätterna att kryssa i (inte ett antal att skriva: mängden räknas ut åt gästen).
+    await userEvent.click(await screen.findByRole('checkbox', { name: 'Varmrätter' }))
     expect(await screen.findByRole('checkbox', { name: 'Grillad lax' })).toBeInTheDocument()
     expect(screen.queryByLabelText('Portioner Grillad lax')).not.toBeInTheDocument()
     expect(screen.queryByText('Under utveckling')).not.toBeInTheDocument()
     // Headern finns kvar även här.
     expect(screen.getAllByRole('link', { name: 'Meny' }).length).toBeGreaterThan(0)
+  })
+
+  it('slides the header away while the phone menu is open, hides the sticky rows, and gives the menu its own close button', async () => {
+    window.history.replaceState(null, '', '/?restaurang=testkrogen')
+    vi.stubGlobal('fetch', vi.fn(async (url: string) => (url.includes('/site-config') ? json(siteConfig()) : json({ items: [] }))))
+    const user = userEvent.setup()
+    renderSite()
+    const html = document.documentElement
+    const header = () => document.querySelector('header.site-header') as HTMLElement
+    const drawerClose = () => within(document.getElementById('mobile-drawer') as HTMLElement).getByRole('button', { name: 'Stäng meny' })
+
+    const burger = await screen.findByRole('button', { name: 'Öppna meny' })
+    expect(html).not.toHaveClass('nav-open')
+    expect(header()).not.toHaveClass('site-header--menu-open')
+
+    await user.click(burger)
+    expect(html).toHaveClass('nav-open')
+    expect(header()).toHaveClass('site-header--menu-open')
+    expect(header()).toHaveAttribute('inert')
+    expect(drawerClose()).toHaveFocus() // fokus flyttas till menyns egen knapp
+
+    await user.click(drawerClose())
+    expect(html).not.toHaveClass('nav-open')
+    expect(header()).not.toHaveClass('site-header--menu-open')
+    expect(header()).not.toHaveAttribute('inert')
+    expect(screen.getByRole('button', { name: 'Öppna meny' })).toHaveFocus() // och tillbaka när den stängs
+
+    await user.click(screen.getByRole('button', { name: 'Öppna meny' }))
+    expect(header()).toHaveClass('site-header--menu-open')
+    await user.keyboard('{Escape}')
+    expect(header()).not.toHaveClass('site-header--menu-open')
+    expect(html).not.toHaveClass('nav-open')
   })
 
   it('has Vår historia and Kontakt in the footer, not in the header or the phone menu, and says who designed the site', async () => {
@@ -182,6 +215,43 @@ describe('App on SiteProvider', () => {
     expect([...nav.children].map((c) => c.className)).toEqual(['mobile-pre-footer-hours', 'mobile-pre-footer-links'])
     expect(within(nav).getByRole('button', { name: 'ANAR Restaurang & Bar' })).toHaveAttribute('aria-expanded', 'false')
     expect(within(nav).getAllByRole('link').map((l) => l.textContent)).toEqual(['Meny', 'Drinkmeny', 'Vår historia', 'Parkering', 'Kontakt'])
+  })
+
+  it('opens Integritetspolicy, Cookies and Bokningsvillkor as pop-ups over the page, and keeps them as pages for direct links', async () => {
+    window.history.replaceState(null, '', '/?restaurang=testkrogen')
+    const cfg = siteConfig({ features: { reservations: true } })
+    vi.stubGlobal('fetch', vi.fn(async (url: string) => (url.includes('/site-config') ? json(cfg) : json({ items: [] }))))
+    const user = userEvent.setup()
+    const view = renderSite('/')
+    const legal = within(await screen.findByRole('navigation', { name: 'Juridiskt' }))
+
+    // Länken öppnar kitets sida i en ruta ovanpå, inte som en hel sida (ingen kitsida i flödet).
+    await user.click(legal.getByRole('link', { name: 'Integritetspolicy' }))
+    const privacy = await screen.findByRole('dialog', { name: 'Integritetspolicy' })
+    expect(await within(privacy).findByRole('heading', { name: 'Personuppgiftsansvarig' })).toBeInTheDocument()
+    expect(document.querySelector('main.kit-page')).toBeNull()
+    await user.click(within(privacy).getByRole('button', { name: 'Stäng' }))
+    await waitFor(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument())
+
+    await user.click(legal.getByRole('link', { name: 'Cookies' }))
+    expect(await screen.findByRole('dialog', { name: 'Cookies' })).toBeInTheDocument()
+    await user.click(within(screen.getByRole('dialog')).getByRole('button', { name: 'Stäng' }))
+    await waitFor(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument())
+
+    await user.click(legal.getByRole('link', { name: 'Bokningsvillkor' }))
+    expect(await screen.findByRole('dialog', { name: 'Bokningsvillkor' })).toBeInTheDocument()
+    await user.click(within(screen.getByRole('dialog')).getByRole('button', { name: 'Stäng' }))
+    await waitFor(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument())
+
+    // Ctrl-klick (ny flik) lämnas åt webbläsaren: ingen ruta.
+    fireEvent.click(legal.getByRole('link', { name: 'Integritetspolicy' }), { ctrlKey: true })
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+    view.unmount()
+
+    // Adressen är kvar som en hel sida för direktlänkar och mejl.
+    renderSite('/integritetspolicy')
+    expect(await screen.findByRole('heading', { level: 1, name: 'Integritetspolicy' })).toBeInTheDocument()
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
   })
 
   it('puts "Drivs av Booqy" last in the panel with the booking flow, not in the footer', async () => {

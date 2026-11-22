@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react'
 import type { FormEvent } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import {
   DEFAULT_CATEGORIES,
   DateInput,
   FlowSteps,
-  GuestDataNotice,
   MarketingConsent,
   PhoneInput,
   PhoneLink,
@@ -277,7 +276,7 @@ export default function CateringBuilder() {
             {`Minst ${minGuests} gäster${tiers.length > 0 ? ` · rabatt från ${Math.min(...tiers.map((t) => t.fromPortions))} gäster` : ''} · förberedelsetiden beror på antalet gäster`}
           </p>
           <p className="cb-intro">
-            Välj det du vill ha. Förrätt, varmrätt och efterrätt behöver inget antal: mängden räknas ut åt dig och du ser ett ungefärligt pris. Restaurangen skickar sedan en offert som du kan be att få ändrad innan du godkänner den.
+            Förrätt, varmrätt och efterrätt behöver inget antal: mängden räknas ut åt dig och du ser ett ungefärligt pris. Restaurangen skickar sedan en offert som du kan be att få ändrad innan du godkänner den.
           </p>
           <MenuPicker
             units={units}
@@ -489,7 +488,10 @@ export default function CateringBuilder() {
             <span>Jag godkänner att restaurangen kontaktar mig om förfrågan.</span>
           </label>
           <MarketingConsent value={form.consent} onChange={(v) => update('consent', v)} />
-          <GuestDataNotice kind="catering" />
+          {/* Kort rad i stället för kitets långa text: hur uppgifterna används, hur länge de sparas och vem som ansvarar står i integritetspolicyn (en popup, LegalPopups). Två textnoder och en länk: en mening delad på flera noder översätts inte. */}
+          <p className="guest-notice">
+            Vill du veta hur vi använder dina kontaktuppgifter? <Link to="/integritetspolicy">Läs integritetspolicyn</Link>
+          </p>
           {message && (
             <p className="notice error" role="alert" id={ERROR_ID}>
               {message}

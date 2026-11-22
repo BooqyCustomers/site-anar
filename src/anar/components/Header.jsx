@@ -32,6 +32,7 @@ export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [hoursModalOpen, setHoursModalOpen] = useState(false);
   const menuBtnRef = useRef(null);
+  const closeBtnRef = useRef(null);
   const openingHoursDesktopRef = useRef(null);
   const prevMenuOpen = useRef(false);
   const headerRef = useRef(null);
@@ -48,9 +49,12 @@ export default function Header() {
     document.addEventListener('keydown', onKey);
     const prev = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
+    // header.css göms de klistrade raderna i sidan medan menyn är öppen.
+    document.documentElement.classList.add('nav-open');
     return () => {
       document.removeEventListener('keydown', onKey);
       document.body.style.overflow = prev;
+      document.documentElement.classList.remove('nav-open');
     };
   }, [menuOpen]);
 
@@ -70,8 +74,11 @@ export default function Header() {
     };
   }, [hidden]);
 
+  // Menyn öppen: fokus till menyns egen stängknapp (menyknappen i headern är då gömd). Stängd: tillbaka till menyknappen.
   useEffect(() => {
-    if (prevMenuOpen.current && !menuOpen) {
+    if (menuOpen) {
+      closeBtnRef.current?.focus({ preventScroll: true });
+    } else if (prevMenuOpen.current) {
       menuBtnRef.current?.focus();
     }
     prevMenuOpen.current = menuOpen;
@@ -79,9 +86,11 @@ export default function Header() {
 
   return (
     <>
+      {/* Medan sidomenyn är öppen åker hela headern uppåt (och går inte att tabba in i); menyn har egen stängknapp. */}
       <header
         ref={headerRef}
-        className={`site-header${stuck ? ' site-header--stuck' : ''}${hidden ? ' site-header--hidden' : ''}`}
+        inert={menuOpen}
+        className={`site-header${stuck ? ' site-header--stuck' : ''}${hidden ? ' site-header--hidden' : ''}${menuOpen ? ' site-header--menu-open' : ''}`}
       >
         <div className="site-header-gutter" aria-hidden="true" />
 
@@ -149,6 +158,17 @@ export default function Header() {
         aria-hidden={!menuOpen}
         inert={!menuOpen}
       >
+        <button
+          ref={closeBtnRef}
+          type="button"
+          className="mobile-drawer-close"
+          aria-label={t('a11y.closeMenu')}
+          onClick={closeMenu}
+        >
+          <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false">
+            <path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+          </svg>
+        </button>
         <nav aria-label={t('a11y.mobileNav')}>
           <ul className="mobile-drawer-list">
             {LEFT_NAV.map((item) => (

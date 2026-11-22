@@ -38,6 +38,12 @@
   }
 }
 
+/* Kortet Boka bord: rubriken och raden under den står mitt i kortet (kitets egen sidhuvud är vänsterställt). */
+.desk-split .page-head h1,
+.desk-split .page-head .page-lede {
+  text-align: center;
+}
+
 .reviews-column {
   display: flex;
   flex-direction: column;

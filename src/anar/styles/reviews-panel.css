@@ -15,7 +15,8 @@
   max-height: calc(100svh - clamp(8.75rem, 22svh, 12.25rem));
   overflow-y: auto;
   overscroll-behavior: auto;
-  scrollbar-gutter: stable;
+  /* Plats för rullningslisten på båda sidor, så att rubriken och brickorna står mitt i kortet (inte 8 px åt vänster). */
+  scrollbar-gutter: stable both-edges;
 }
 
 @media (min-width: 801px) {
@@ -26,6 +27,7 @@
 }
 
 .reviews-panel-title {
+  text-align: center;
   margin: 0 0 0.85rem;
   font-family: 'Cormorant Garamond', Georgia, serif;
   font-size: clamp(1.2rem, 1.8vw, 1.55rem);

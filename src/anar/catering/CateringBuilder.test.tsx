@@ -83,8 +83,23 @@ function renderBuilder() {
 const flat = (s: string | null) => (s ?? '').replace(/\s+/g, ' ').trim()
 /** Kalkylens rader som gästen läser dem: namn och belopp med ett mellanrum. */
 const rowsOf = (el: HTMLElement) => [...el.querySelectorAll('li, .cart-total')].map((r) => flat([...r.children].map((c) => c.textContent).join(' ')))
-async function tick(user: ReturnType<typeof userEvent.setup>, ...names: string[]) {
-  for (const name of names) await user.click(screen.getByRole('checkbox', { name }))
+const GROUP_OF: Record<string, string> = {
+  Burrata: 'Förrätter', 'Toast Skagen': 'Förrätter', 'Grillad lax': 'Varmrätter', Kladdkaka: 'Efterrätter', Äppelmust: 'Drycker', Lättöl: 'Drycker',
+}
+type User = ReturnType<typeof userEvent.setup>
+/** Gästens val av en del av menyn: kryssar delen (om den inte redan är vald) och öppnar dess flik. */
+async function openGroup(user: User, group: string) {
+  const chip = screen.getByRole('checkbox', { name: group }) as HTMLInputElement
+  if (!chip.checked) await user.click(chip)
+  const tab = screen.getByRole('tab', { name: new RegExp(`^${group}`) })
+  if (tab.getAttribute('aria-selected') !== 'true') await user.click(tab)
+}
+/** Väljer rätternas delar av menyn, öppnar flikarna och kryssar rätterna. */
+async function tick(user: User, ...names: string[]) {
+  for (const name of names) {
+    await openGroup(user, GROUP_OF[name])
+    await user.click(screen.getByRole('checkbox', { name }))
+  }
 }
 
 async function openWith30Guests() {
@@ -95,12 +110,66 @@ async function openWith30Guests() {
 }
 
 describe('Catering: tick what you want', () => {
-  it('lists the catering dishes in groups, as checkboxes, with no quantity field to fill in', async () => {
+  it('asks first which parts of the menu the guest wants, and shows no dishes before that', async () => {
     const { container } = await openWith30Guests()
-    for (const name of ['Förrätter', 'Varmrätter', 'Efterrätter', 'Drycker']) expect(screen.getByRole('region', { name })).toBeInTheDocument()
-    expect(within(screen.getByRole('region', { name: 'Förrätter' })).getAllByRole('checkbox')).toHaveLength(2)
-    expect(screen.getByRole('checkbox', { name: 'Äppelmust' })).not.toBeChecked()
+    for (const name of ['Förrätter', 'Varmrätter', 'Efterrätter', 'Drycker']) expect(screen.getByRole('checkbox', { name })).not.toBeChecked()
+    expect(screen.getByRole('heading', { name: 'Vad vill du ha?' })).toBeInTheDocument()
+    expect(screen.queryByRole('tablist')).not.toBeInTheDocument()
+    expect(screen.queryByRole('checkbox', { name: 'Burrata' })).not.toBeInTheDocument()
     expect(container.querySelectorAll('input[type="number"]')).toHaveLength(0)
+  })
+
+  it('opens a part when it is chosen and closes the others: one group at a time, with no quantity field to fill in', async () => {
+    const { user, container } = await openWith30Guests()
+    await openGroup(user, 'Förrätter')
+    expect(screen.getByRole('tab', { name: 'Förrätter' })).toHaveAttribute('aria-selected', 'true')
+    expect(within(screen.getByRole('tabpanel', { name: 'Förrätter' })).getAllByRole('checkbox')).toHaveLength(2)
+
+    // väljs varmrätt öppnas den, och förrätterna stängs (kvar i sidan men dolda)
+    await openGroup(user, 'Varmrätter')
+    expect(screen.getAllByRole('tab')).toHaveLength(2)
+    expect(screen.getByRole('tab', { name: 'Varmrätter' })).toHaveAttribute('aria-selected', 'true')
+    expect(screen.getByRole('checkbox', { name: 'Grillad lax' })).toBeInTheDocument()
+    expect(screen.queryByRole('checkbox', { name: 'Burrata' })).not.toBeInTheDocument()
+    expect(container.querySelectorAll('[role="tabpanel"][hidden]')).toHaveLength(1)
+
+    // och med ett klick på fliken är det tvärtom
+    await user.click(screen.getByRole('tab', { name: 'Förrätter' }))
+    expect(screen.getByRole('checkbox', { name: 'Burrata' })).toBeInTheDocument()
+    expect(screen.queryByRole('checkbox', { name: 'Grillad lax' })).not.toBeInTheDocument()
+    expect(container.querySelectorAll('input[type="number"]')).toHaveLength(0)
+  })
+
+  it('shows how many are picked in each tab, and keeps the picks when a part is unticked and ticked again', async () => {
+    const { user } = await openWith30Guests()
+    await tick(user, 'Burrata', 'Toast Skagen')
+    await waitFor(() => expect(lastQuote()?.dishes?.length).toBe(2), { timeout: 3000 })
+    expect(screen.getByRole('tab', { name: 'Förrätter Valda: 2' })).toBeInTheDocument()
+
+    // förrätt bort: fliken och kalkylens innehåll försvinner, rätterna ligger kvar bakom kulisserna
+    await user.click(screen.getByRole('checkbox', { name: 'Förrätter' }))
+    expect(screen.queryByRole('tablist')).not.toBeInTheDocument()
+    expect(screen.getByText(/Fyll i antal gäster och välj vad du vill ha/)).toBeInTheDocument()
+
+    await user.click(screen.getByRole('checkbox', { name: 'Förrätter' }))
+    expect(screen.getByRole('checkbox', { name: 'Burrata' })).toBeChecked()
+    expect(screen.getByRole('checkbox', { name: 'Toast Skagen' })).toBeChecked()
+    expect(screen.getByRole('tab', { name: 'Förrätter Valda: 2' })).toBeInTheDocument()
+  })
+
+  it('moves between the tabs with the arrow keys', async () => {
+    const { user } = await openWith30Guests()
+    await openGroup(user, 'Förrätter')
+    await openGroup(user, 'Efterrätter')
+    await user.click(screen.getByRole('tab', { name: 'Förrätter' }))
+    screen.getByRole('tab', { name: 'Förrätter' }).focus()
+    await user.keyboard('{ArrowRight}')
+    expect(screen.getByRole('tab', { name: 'Efterrätter' })).toHaveAttribute('aria-selected', 'true')
+    expect(screen.getByRole('tab', { name: 'Efterrätter' })).toHaveFocus()
+    await user.keyboard('{ArrowRight}')
+    expect(screen.getByRole('tab', { name: 'Förrätter' })).toHaveFocus() // runt
+    await user.keyboard('{End}')
+    expect(screen.getByRole('tab', { name: 'Efterrätter' })).toHaveFocus()
   })
 
   it('works out the quantities itself: starters share the guests, 1 per guest for main, dessert and each drink', async () => {
@@ -180,6 +249,13 @@ describe('Catering: tick what you want', () => {
 
     expect(await screen.findByText('Fyll i leveransadressen (gata, postnummer och ort).')).toBeInTheDocument()
     expect(posts('/catering/requests')).toHaveLength(0)
+  })
+
+  it('has one short line about the contact details, with a link to the privacy policy, instead of the long notice', async () => {
+    await openWith30Guests()
+    expect(screen.getByText(/Vill du veta hur vi använder dina kontaktuppgifter/)).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'Läs integritetspolicyn' })).toHaveAttribute('href', '/integritetspolicy')
+    expect(screen.queryByText(/personuppgiftsansvarig/)).not.toBeInTheDocument()
   })
 
   it('keeps the consent boxes unticked and sends the request with the computed quantities and a note about them', async () => {
