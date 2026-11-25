@@ -52,6 +52,7 @@ export const STRINGS = {
   'a11y.mobileNav': 'Mobilmeny',
   'a11y.closeMenu': 'Stäng meny',
   'a11y.closeDialog': 'Stäng',
+  'a11y.closeOffer': 'Stäng erbjudandet',
   'a11y.closeOpeningHours': 'Stäng öppettider',
   'a11y.openMenu': 'Öppna meny',
   'a11y.preFooterNav': 'Snabblänkar och öppettider',

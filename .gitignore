@@ -5,3 +5,6 @@ dist/
 *.log
 .claude
 
+
+# Originalbilder (inte med i sajten): de konverteras till WebP i src/anar/images
+design-originals/

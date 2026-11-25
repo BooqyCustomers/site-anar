@@ -54,6 +54,14 @@
   opacity: 1;
 }
 
+/* I ett bildspel ligger lagren i rutan som tonar in och ut. */
+.landing-bg-slide .landing-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .landing-bg-slide {
     transition: none;

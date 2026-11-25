@@ -1,10 +1,8 @@
 import { useEffect, useState } from 'react';
-import shiraz from '../images/shiraz.webp';
-import shiraz1 from '../images/shiraz1.webp';
-import shiraz2 from '../images/shiraz2.webp';
-import shiraz3 from '../images/shiraz3.webp';
+import { bgSet } from '../data/backgrounds';
+import BackgroundLayers from './BackgroundLayers';
 
-const SOURCES = [shiraz, shiraz1, shiraz2, shiraz3];
+const SLIDES = ['shiraz-anar', 'shiraz3'].map((name) => ({ name, set: bgSet(name) }));
 const INTERVAL_MS = 5000;
 
 export default function DrinkMenyBackground() {
@@ -14,22 +12,17 @@ export default function DrinkMenyBackground() {
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
     if (mq.matches) return undefined;
     const id = window.setInterval(() => {
-      setActive((i) => (i + 1) % SOURCES.length);
+      setActive((i) => (i + 1) % SLIDES.length);
     }, INTERVAL_MS);
     return () => window.clearInterval(id);
   }, []);
 
   return (
     <div className="landing-bg-cycle" aria-hidden="true">
-      {SOURCES.map((src, i) => (
-        <img
-          key={src}
-          src={src}
-          alt=""
-          className={`landing-bg-slide${i === active ? ' landing-bg-slide--active' : ''}`}
-          decoding="async"
-          fetchPriority={i === 0 ? 'high' : 'low'}
-        />
+      {SLIDES.map((slide, i) => (
+        <div key={slide.name} className={`landing-bg-slide${i === active ? ' landing-bg-slide--active' : ''}`}>
+          <BackgroundLayers set={slide.set} priority={i === 0 ? 'high' : 'low'} />
+        </div>
       ))}
     </div>
   );

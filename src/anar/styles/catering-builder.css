@@ -479,10 +479,16 @@
   height: 10px;
 }
 
-/* "Via e-post. Läs mer ..." står under erbjudanderutan i linje med dess text (rutan 16 px + mellanrum 10 px). */
+/* "Via e-post." står under erbjudanderutan i linje med dess text (rutan 16 px + mellanrum 10 px). Länken "Läs mer i
+   integritetspolicyn" i samma rad är bortgömd: raden "Vill du veta hur vi använder dina kontaktuppgifter?" längre ned har
+   redan länken. "Via e-post." får stå kvar, eftersom det är det enda som säger vilken kanal samtycket gäller. */
 .cb-form .order-cart .consent-more {
   margin: -2px 0 0 26px;
   font-size: 12px;
+}
+
+.cb-form .order-cart .consent-more a {
+  display: none;
 }
 
 .cb-form .order-cart .guest-notice {

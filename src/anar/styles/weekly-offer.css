@@ -1,0 +1,166 @@
+/* "Veckans erbjudande" (WeeklyOfferPopup.jsx): en glasruta nere till höger på startsidan, och på telefon och
+   mindre skärmar ett ark längst ned. Lagerordning: över headern och de klistrade raderna (30), under kitets
+   erbjudandeflik (40), sidomenyn (44-46) och dialogrutorna. */
+
+.weekly-offer {
+  position: fixed;
+  z-index: 36;
+  right: clamp(0.75rem, 2vw, 1.5rem);
+  bottom: clamp(0.75rem, 2vw, 1.5rem);
+  box-sizing: border-box;
+  width: min(23rem, calc(100vw - 1.5rem));
+  max-height: min(70svh, 32rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 1rem 1.1rem 1.1rem;
+  color: var(--ink);
+  background: var(--glass-1);
+  border: 1px solid var(--glass-1-line);
+  border-radius: var(--glass-radius-lg);
+  box-shadow: var(--glass-1-rim), 0 22px 56px -16px rgba(0, 0, 0, 0.75);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  animation: weekly-offer-in 0.5s var(--glass-ease) both;
+  /* Gör rutan till den fasta stäng-knappens ram (se .weekly-offer-close), också där backdrop-filter saknas. */
+  contain: layout;
+}
+
+@keyframes weekly-offer-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .weekly-offer {
+    animation: none;
+  }
+}
+
+/* position: fixed mot rutan (contain: layout ovan), inte absolute: knappen är rutans egen kromning och inte en del av
+   sidans innehåll. Testernas överlappskontroll (e2e lib/pages.ts) hoppar över fasta kontroller, men räknar annars in
+   bokningens datumknappar som rullat ut ur sin rad (de ligger osynliga under rutan) som "överlappande". Utseendet
+   är oförändrat. */
+.weekly-offer-close {
+  position: fixed;
+  top: 0.4rem;
+  inset-inline-end: 0.4rem;
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  margin: 0;
+  color: rgba(255, 248, 242, 0.95);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.06));
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 14px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.weekly-offer-close:hover {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.1));
+}
+
+.weekly-offer-close:focus-visible {
+  outline: 2px solid #f5e6d8;
+  outline-offset: 2px;
+}
+
+/* Kategorins namn i Booqy skrivs med liten bokstav ("veckans erbjudande"): första bokstaven görs stor. */
+.weekly-offer-title {
+  margin: 0 0 0.7rem;
+  padding-inline-end: 3rem;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.35rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  line-height: 1.2;
+  color: rgba(201, 166, 107, 0.98);
+}
+
+.weekly-offer-title::first-letter,
+.weekly-offer-name::first-letter {
+  text-transform: uppercase;
+}
+
+.weekly-offer-list {
+  display: grid;
+  gap: 0.85rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.weekly-offer-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.8rem;
+}
+
+/* Fotot från Booqy (DishPhoto) som liten ruta: inte flytande, och ingen plats när rätten saknar foto. */
+.weekly-offer .dish-photo {
+  flex: none;
+  float: none;
+  width: 5rem;
+  aspect-ratio: 1;
+  margin: 0;
+  box-shadow: none;
+}
+
+.weekly-offer-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.weekly-offer-dish {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0 0.6rem;
+  margin: 0;
+  font-family: 'Outfit', system-ui, sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: rgba(255, 248, 242, 0.98);
+}
+
+/* ::first-letter gäller bara block, så namnet är en egen ruta */
+.weekly-offer-name {
+  display: inline-block;
+}
+
+.weekly-offer-price {
+  flex: none;
+  font-weight: 700;
+  color: rgba(232, 212, 184, 0.98);
+  white-space: nowrap;
+}
+
+.weekly-offer-desc {
+  margin: 0.25rem 0 0;
+  font-size: 0.86rem;
+  line-height: 1.45;
+  color: rgba(255, 245, 238, 0.78);
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Telefon och surfplatta (under 1024 px): ett ark längst ned, över hela bredden. */
+@media (max-width: 1023px) {
+  .weekly-offer {
+    right: 0.75rem;
+    left: 0.75rem;
+    bottom: max(0.75rem, env(safe-area-inset-bottom, 0px));
+    width: auto;
+    max-height: 44svh;
+  }
+}

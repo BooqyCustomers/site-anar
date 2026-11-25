@@ -2,12 +2,12 @@ import { Suspense, useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { OfferCard, SkelCard, trackPage, useKeepTerms, useSite } from '@bookingsystemadvancedorg/site-kit';
 import bgKebab from '../images/kebab.gif';
-import bgMeny from '../images/granatapple.webp';
-import bgKolgrill from '../images/kollgrill.webp';
-import bgHistoria from '../images/aboutus/bakgrund_bild.png';
-import bgParking from '../images/parking.jpg';
-import bgKontakt from '../images/contact.png';
-import bgBestall from '../images/delivery/delivery_background.jpg';
+import bgHistoria from '../images/aboutus/bakgrund_bild.webp';
+import bgKontakt from '../images/contact.webp';
+import bgBestall from '../images/delivery/delivery_background-3840.webp';
+import bgBestallSmall from '../images/delivery/delivery_background-1920.webp';
+import { bgSet } from '../data/backgrounds';
+import BackgroundLayers from '../components/BackgroundLayers';
 import DrinkMenyBackground from '../components/DrinkMenyBackground';
 import DagensLunchBackground from '../components/DagensLunchBackground';
 import Header from '../components/Header';
@@ -17,6 +17,18 @@ import LegalPopups from '../components/LegalPopups';
 import MobilePreFooterNav from '../components/MobilePreFooterNav';
 import Seo from '../components/Seo';
 import { useLanguage } from '../i18n/LanguageContext';
+
+// Meny, Catering/Kolgrill och Parkering har en liggande och en stående version var (data/backgrounds.js). Startsidan
+// (GIF:en), Kontakt, Vår historia och Beställ hem har en enda bild var, som täcker skärmen (cover).
+const BACKGROUND = {
+  home: { src: bgKebab },
+  meny: { set: bgSet('anar') },
+  kolgrill: { set: bgSet('kollgrill') },
+  kontakt: { src: bgKontakt },
+  parkering: { set: bgSet('parking') },
+  historia: { src: bgHistoria },
+  bestall: { src: bgBestall, small: bgBestallSmall },
+};
 
 export default function SiteLayout() {
   const { pathname } = useLocation();
@@ -38,19 +50,19 @@ export default function SiteLayout() {
   const isKontakt = pathname === '/kontakt';
   const isBestall = pathname === '/bestall-hem';
   const isCatering = pathname === '/catering';
-  const bgSrc = isBestall
-    ? bgBestall
+  const bgKey = isBestall
+    ? 'bestall'
     : isKontakt
-      ? bgKontakt
+      ? 'kontakt'
       : isParkering
-        ? bgParking
+        ? 'parkering'
         : isHistoria
-          ? bgHistoria
+          ? 'historia'
           : isKolgrill || isCatering
-            ? bgKolgrill
+            ? 'kolgrill'
             : isMeny
-              ? bgMeny
-              : bgKebab;
+              ? 'meny'
+              : 'home';
 
   const landingClass = [
     'landing',
@@ -75,15 +87,7 @@ export default function SiteLayout() {
       ) : isDagensLunch ? (
         <DagensLunchBackground />
       ) : (
-        <img
-          className="landing-bg"
-          key={bgSrc}
-          src={bgSrc}
-          alt=""
-          decoding="async"
-          fetchPriority="high"
-          aria-hidden="true"
-        />
+        <BackgroundLayers key={bgKey} {...BACKGROUND[bgKey]} />
       )}
       <div className="landing-scrim" aria-hidden="true" />
 
