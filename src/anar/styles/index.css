@@ -21,6 +21,10 @@
 @import './dish-photo.css';
 @import "./kit.css";
 @import './glass.css';
+@import './plan-labels.css';
+@import './plan-mode.css';
+@import './plan-lens.css';
+@import './plan-zoom.css';
 @import './legal-dialog.css';
 @import './weekly-offer.css';
 @import './touch.css';

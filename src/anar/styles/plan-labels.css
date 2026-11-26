@@ -1,0 +1,48 @@
+/* Namn på dörrar och fönster i bokningens planritning (src/anar/kitBridge/planLabels.ts). */
+
+/* 3D: texten står upprätt över dörren eller fönstret och vänder sig mot kameran när vyn roteras, på samma sätt som
+   kitets bordsetiketter (rotateZ(-spin) rotateX(-tilt)). --wh, --spin och --tilt ärvs från väggen och scenen. */
+.plan-label--3d {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  transform-style: preserve-3d;
+  transform: translateZ(var(--wh, 90px)) rotateZ(calc(-1 * var(--spin, 0deg))) rotateX(calc(-1 * var(--tilt, 0deg)));
+  transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.f3d-world--dragging .plan-label--3d {
+  transition: none;
+}
+
+.plan-label--3d .plan-label-text {
+  position: absolute;
+  bottom: 3px;
+  left: 0;
+  transform: translateX(-50%);
+  padding: 1px 7px;
+  border-radius: 999px;
+  border: 1px solid rgba(232, 201, 138, 0.5);
+  background: rgba(22, 11, 9, 0.82);
+  color: #f6e8cc;
+  font: 600 10px/1.3 var(--sans, 'Outfit', sans-serif);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+/* 2D: samma text mitt på dörren eller fönstret, med en mörk kant så att den syns över väggens streck. Måtten är i
+   meter (viewBox), som kitets bordstext (0.3). */
+.plan-label-2d {
+  fill: #f6e8cc;
+  font: 600 0.24px var(--sans, 'Outfit', sans-serif);
+  text-anchor: middle;
+  dominant-baseline: middle;
+  paint-order: stroke;
+  stroke: rgba(22, 11, 9, 0.92);
+  stroke-width: 0.07px;
+  stroke-linejoin: round;
+  pointer-events: none;
+}

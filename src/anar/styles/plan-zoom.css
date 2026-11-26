@@ -1,0 +1,89 @@
+/* Zoomknappar på bokningens planritning, för mobil och pekskärm (src/anar/kitBridge/planZoom.ts). */
+
+.floor-wrap {
+  position: relative;
+}
+
+.plan-zoom {
+  display: none;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 8;
+  gap: 8px;
+}
+
+/* Knapparna visas i mobilformat och på pekskärm; med mus finns förstoringsglaset (plan-lens.css). */
+@media (max-width: 700px), (pointer: coarse) {
+  .plan-zoom {
+    display: flex;
+  }
+}
+
+.plan-zoom-button {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  color: #f6e8cc;
+  background: rgba(22, 11, 9, 0.8);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    inset 0 0 0 1px rgba(232, 201, 138, 0.55),
+    0 6px 16px -6px rgba(0, 0, 0, 0.7);
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.plan-zoom-button:active:not(:disabled) {
+  transform: scale(0.94);
+}
+
+.plan-zoom-button:disabled {
+  opacity: 0.38;
+  cursor: default;
+}
+
+.plan-zoom-button:focus-visible {
+  outline: 2px solid #e8c98a;
+  outline-offset: 2px;
+}
+
+/* 2D inzoomad: planen blir --plan-zoom gånger större i sin ruta, som rullar (fingret flyttar planen, utan rullist). */
+.floor-wrap[data-plan-zoom] .floor-svg-frame {
+  overflow: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+}
+
+.floor-wrap[data-plan-zoom] .floor-svg-frame::-webkit-scrollbar {
+  display: none;
+}
+
+.floor-wrap[data-plan-zoom] .floor-svg {
+  width: calc(100% * var(--plan-zoom, 1));
+  height: calc(100% * var(--plan-zoom, 1));
+  max-width: none;
+}
+
+/* 3D inzoomad: scenen skalas runt mitten och flyttas upp eller ner med --plan-pan. Egenskaperna scale och translate
+   läggs före kitets egen transform, så vridningen (--spin) och lutningen (--tilt) är oförändrade. */
+.floor-wrap[data-plan-zoom] .f3d-world {
+  scale: var(--plan-zoom, 1);
+  translate: 0 var(--plan-pan, 0px);
+}
+
+.f3d-world:not(.f3d-world--dragging) {
+  transition:
+    transform 0.32s cubic-bezier(0.4, 0, 0.2, 1),
+    scale 0.25s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .f3d-world:not(.f3d-world--dragging) {
+    transition: none;
+  }
+}

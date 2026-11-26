@@ -168,6 +168,21 @@
   }
 }
 
+/* Planen är en bild som man drar i, inte en text. Kitet sätter ingen user-select på 3D-scenen, så bordsnumren,
+   platserna och hjälptexten blev markerade när man drog, och att dra från den markerade texten startar webbläsarens
+   egen textdragning (dragstart, sedan pointercancel): då stannade rotationen efter ett par grader och kom aldrig
+   igång igen. Utan markering finns ingen textdragning att starta, så vyn går att snurra hur länge man vill. Samma
+   sak för 2D-planens bordstexter. Bordens knappar och tangentbordsvalet påverkas inte. */
+.f3d-scene,
+.f3d-scene *,
+.floor-svg-frame,
+.floor-svg-frame * {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-user-drag: none;
+}
+
 /* Flödets rubrik och stegrad i Anars panel (startsidan och flödessidorna).
    Stegen är lika breda kolumner med en numrerad prick och namnet
    under; linjen mellan prickarna är streckad framåt och hel bakåt. Smal
