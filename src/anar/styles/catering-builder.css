@@ -90,6 +90,16 @@
   margin-top: 1rem;
 }
 
+/* "Gå vidare till När och var" under rätterna: flyttar sidan till nästa steg direkt (useGuidedScroll.ts). Sidan går
+   annars vidare av sig själv en stund efter sista valet. */
+.cb-form .cb-next {
+  align-self: flex-start;
+  width: 100%;
+  max-width: 24rem;
+  min-height: 48px;
+  margin-top: 1rem;
+}
+
 /* Flikraden: en del åt gången, lika breda flikar i ett rutnät. Den bryter rad hellre än att rulla i sidled. */
 .cb-tabs {
   display: grid;

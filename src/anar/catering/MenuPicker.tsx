@@ -212,7 +212,7 @@ export default function MenuPicker({
 
   return (
     <>
-      <div className="cb-want" role="group" aria-labelledby={`${uid}-want`}>
+      <div className="cb-want" id="cb-want" role="group" aria-labelledby={`${uid}-want`}>
         <h3 className="cb-sub" id={`${uid}-want`}>
           Vad vill du ha?
         </h3>
@@ -231,7 +231,7 @@ export default function MenuPicker({
       </div>
 
       {wanted.length > 0 && (
-        <div className="cb-browse">
+        <div className="cb-browse" id="cb-browse">
           <div className="cb-tabs" role="tablist" aria-label="Delar av menyn">
             {wanted.map(({ role, title }, index) => {
               const n = countOf(role)

@@ -5,7 +5,12 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { SiteProvider, cateringApi, configureSiteKit } from '@bookingsystemadvancedorg/site-kit'
 import { LOCATION_ID, json, siteConfig } from '@bookingsystemadvancedorg/site-kit/testing'
 import CateringBuilder from './CateringBuilder'
+import { glideTo } from './glide'
 import { ESTIMATE_NOTE } from './selection'
+
+// Sidan rullas inte på riktigt i testerna: glide.ts har egna tester, här kontrolleras vart sidan skulle rulla.
+vi.mock('./glide', () => ({ glideTo: vi.fn(async () => true) }))
+const glide = vi.mocked(glideTo)
 
 const settings = {
   enabled: true, minPortions: 10, maxPortions: 300, advanceDays: 5, pickup: true, delivery: true, deliveryArea: 'Linköping',
@@ -47,6 +52,7 @@ const posts = (suffix: string) =>
 const lastQuote = () => posts('/catering/quote').at(-1)
 
 beforeEach(() => {
+  glide.mockClear()
   window.history.replaceState(null, '', '/?restaurang=testkrogen')
   fetchMock = vi.fn(async (url: string, init?: RequestInit) => {
     if (url.includes('/site-config')) return json(siteConfig())
@@ -228,6 +234,54 @@ describe('Catering: tick what you want', () => {
     await tick(user, 'Grillad lax')
     expect(await screen.findByRole('heading', { name: '2. När och var' })).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: '3. Dina uppgifter' })).toBeInTheDocument()
+  })
+
+  it('goes on to the menu when the guest presses Enter after the number of guests, and does not send the form', async () => {
+    const user = userEvent.setup()
+    renderBuilder()
+    const guests = await screen.findByLabelText('Antal gäster')
+    await user.type(guests, '30{Enter}')
+
+    await waitFor(() => expect(glide).toHaveBeenCalledOnce())
+    expect(glide.mock.calls[0][0]).toBe(document.getElementById('cb-want'))
+    expect(document.activeElement).not.toBe(guests) // tangentbordet på en telefon stängs
+    expect(posts('/catering/requests')).toHaveLength(0)
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+  })
+
+  it('says what is missing when Enter is pressed with too few guests, and does not roll the page', async () => {
+    const user = userEvent.setup()
+    renderBuilder()
+    await user.type(await screen.findByLabelText('Antal gäster'), '5{Enter}')
+
+    expect(await screen.findByText('Minst 15 gäster.')).toHaveAttribute('role', 'alert')
+    expect(glide).not.toHaveBeenCalled()
+  })
+
+  it('rolls on by itself to the menu a moment after the number of guests, and not before', async () => {
+    vi.useFakeTimers({ shouldAdvanceTime: true })
+    try {
+      const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime })
+      renderBuilder()
+      await user.type(await screen.findByLabelText('Antal gäster'), '30')
+      expect(glide).not.toHaveBeenCalled()
+      await vi.advanceTimersByTimeAsync(1600)
+      expect(glide).toHaveBeenCalledOnce()
+      expect(glide.mock.calls[0][0]).toBe(document.getElementById('cb-want'))
+    } finally {
+      vi.useRealTimers()
+    }
+  })
+
+  it('has a button after the dishes that goes on to "När och var" at once, shown when there is something to go on with', async () => {
+    const { user } = await openWith30Guests()
+    expect(screen.queryByRole('button', { name: 'Gå vidare till När och var' })).not.toBeInTheDocument()
+    await tick(user, 'Grillad lax')
+    glide.mockClear()
+
+    await user.click(await screen.findByRole('button', { name: 'Gå vidare till När och var' }))
+    await waitFor(() => expect(glide).toHaveBeenCalledOnce())
+    expect(glide.mock.calls[0][0]).toBe(screen.getByRole('region', { name: 'När och var' }))
   })
 
   it('explains in words a guest follows when the choice is too big for one request', async () => {

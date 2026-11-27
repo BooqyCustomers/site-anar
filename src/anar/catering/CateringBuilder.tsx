@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import type { FormEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import {
@@ -20,8 +20,11 @@ import {
   useStickyCart,
 } from '@bookingsystemadvancedorg/site-kit'
 import MenuPicker from './MenuPicker'
-import { INITIAL_FORM, NOTES_MAX, STEPS, currentStep, guestError, hasAddress, validate } from './form'
+import { INITIAL_FORM, NOTES_MAX, STEPS, currentStep, detailsDone, guestError, hasAddress, validate, whenWhereDone } from './form'
 import type { FormState } from './form'
+import { DELAYS, QUICK_DELAY, dishesDone, guestsDone, partsDone } from './guidedFlow'
+import type { StepId, TargetId } from './guidedFlow'
+import { useGuidedScroll } from './useGuidedScroll'
 import { ESTIMATE_NOTE, EMPTY_CHOICE, approxOre, breakdown, buildUnits, hasAutoQuantities, quantities, selectionFields } from './selection'
 import type { Choice, Unit } from './selection'
 import '../styles/catering-builder.css'
@@ -43,6 +46,30 @@ const EMPTY_MENU: cateringApi.CateringMenu = { dishes: [], packages: [] }
 const ERROR_ID = 'catering-error'
 const kr = (ore: number | undefined) => cateringApi.kronor(ore)
 
+/** Vilket steg ett fält hör till: ändras det kan sidan gå vidare från det steget (useGuidedScroll.ts). */
+const STEP_OF: Partial<Record<keyof FormState, StepId>> = {
+  guests: 'guests',
+  fulfilment: 'when',
+  deliveryDate: 'when',
+  deliveryTime: 'when',
+  street: 'when',
+  postalCode: 'when',
+  city: 'when',
+  equipmentReturn: 'when',
+  customerType: 'details',
+  name: 'details',
+  email: 'details',
+  phone: 'details',
+  companyName: 'details',
+  orgNumber: 'details',
+  invoiceReference: 'details',
+  signatoryName: 'details',
+  signatoryRole: 'details',
+  signatoryAuthority: 'details',
+}
+/** Val med en knapp (inte text som skrivs): sidan väntar kortare. */
+const QUICK_FIELDS: ReadonlySet<keyof FormState> = new Set(['fulfilment', 'equipmentReturn', 'customerType', 'signatoryAuthority'])
+
 function SumRow({ label, value }: { label: string; value: string }) {
   return (
     <li>
@@ -60,6 +87,17 @@ export default function CateringBuilder() {
   const locationId = location.locationId
   const phoneText = info.phone ? formatPhoneNational(info.phone) : undefined
   const cartRef = useStickyCart<HTMLElement>()
+  const whenRef = useRef<HTMLElement>(null)
+  const detailsRef = useRef<HTMLElement>(null)
+  // Kalkylen är sidans sista del (dit sidan rullar när allt är ifyllt); kitets ref för den klistrade kolumnen får den också.
+  const cartEl = useRef<HTMLElement | null>(null)
+  const setCart = useCallback(
+    (el: HTMLElement | null) => {
+      cartEl.current = el
+      cartRef(el)
+    },
+    [cartRef],
+  )
 
   const [settings, setSettings] = useState<cateringApi.CateringSettings | null>(null)
   const [tiers, setTiers] = useState<cateringApi.Tier[]>([])
@@ -102,11 +140,6 @@ export default function CateringBuilder() {
     }
   }, [locationId, attempt])
 
-  const update = <K extends keyof FormState>(key: K, value: FormState[K]) => {
-    setForm((f) => ({ ...f, [key]: value }))
-    setMessage(null)
-    setProblemField(null)
-  }
   const field = (name: string, hint?: string) => ({
     id: `catering-${name}`,
     'aria-invalid': problemField === name || undefined,
@@ -164,6 +197,38 @@ export default function CateringBuilder() {
   const ready = selected > 0 && guests >= minGuests
   const nextTier = cateringApi.nextTier(tiers, guests)
   const split = quote ? breakdown(units, quote.lines) : null
+
+  // Sidan går vidare av sig själv när ett steg är klart: antal gäster, delar av menyn, rätter, När och var, Dina uppgifter
+  // och sist Kalkylen med Skicka (useGuidedScroll.ts). Hooken ligger före de tidiga returerna nedan.
+  const done: Record<StepId, boolean> = {
+    guests: guestsDone(guests, minGuests),
+    parts: partsDone(units, choice),
+    dishes: dishesDone(units, choice),
+    when: whenWhereDone(form),
+    details: detailsDone(form),
+  }
+  const { touch, advance } = useGuidedScroll(done, (target: TargetId) => {
+    switch (target) {
+      case 'parts':
+        return document.getElementById('cb-want')
+      case 'dishes':
+        return document.getElementById('cb-browse')
+      case 'when':
+        return whenRef.current
+      case 'details':
+        return detailsRef.current
+      default:
+        return cartEl.current
+    }
+  })
+
+  const update = <K extends keyof FormState>(key: K, value: FormState[K]) => {
+    setForm((f) => ({ ...f, [key]: value }))
+    setMessage(null)
+    setProblemField(null)
+    const step = STEP_OF[key]
+    if (step) touch(step, QUICK_FIELDS.has(key) ? QUICK_DELAY : DELAYS[step])
+  }
 
   async function submit(e: FormEvent) {
     e.preventDefault()
@@ -269,6 +334,17 @@ export default function CateringBuilder() {
                 value={form.guests}
                 {...field('guests', 'catering-guest-hint')}
                 onChange={(e) => update('guests', e.target.value.replace(/\D/g, '').slice(0, 4))}
+                // Enter går vidare till menyn i stället för att skicka formuläret; lämnas fältet går sidan vidare strax.
+                onKeyDown={(e) => {
+                  if (e.key !== 'Enter') return
+                  e.preventDefault()
+                  if (done.guests) advance('guests')
+                  else {
+                    setMessage(guests ? `Minst ${minGuests} gäster.` : 'Fyll i antal gäster.')
+                    setProblemField('guests')
+                  }
+                }}
+                onBlur={() => touch('guests', QUICK_DELAY / 2)}
               />
             </label>
           </div>
@@ -283,18 +359,24 @@ export default function CateringBuilder() {
             choice={choice}
             guests={guests}
             onChange={(c) => {
+              touch(c.wanted !== choice.wanted ? 'parts' : 'dishes')
               setChoice(c)
               setMessage(null)
               setProblemField(null)
             }}
           />
+          {ready && (
+            <button type="button" className="btn-secondary cb-next" onClick={() => advance('dishes')}>
+              Gå vidare till När och var
+            </button>
+          )}
           {!ready ? (
             <p className="notice catering-next" role="status">
               Fyll i antal gäster och välj vad du vill ha. Därefter anger du datum, leverans och dina uppgifter.
             </p>
           ) : (
             <>
-              <section className="catering-details" aria-label="När och var">
+              <section className="catering-details" aria-label="När och var" ref={whenRef}>
                 <h2 className="catering-step-title">2. När och var</h2>
                 {settings.pickup && settings.delivery && (
                   <div className="segmented" role="radiogroup" aria-label="Avhämtning eller leverans">
@@ -365,7 +447,7 @@ export default function CateringBuilder() {
                   ))}
                 </fieldset>
               </section>
-              <section className="catering-details" aria-label="Dina uppgifter">
+              <section className="catering-details" aria-label="Dina uppgifter" ref={detailsRef}>
                 <h2 className="catering-step-title">3. Dina uppgifter</h2>
                 <div className="segmented" role="radiogroup" aria-label="Beställare">
                   <label className={form.customerType === 'private' ? 'on' : ''}>
@@ -432,7 +514,7 @@ export default function CateringBuilder() {
             </>
           )}
         </div>
-        <aside className="order-cart" ref={cartRef} aria-label="Kalkyl" aria-busy={quoting}>
+        <aside className="order-cart" ref={setCart} aria-label="Kalkyl" aria-busy={quoting}>
           {/* Rubriken och antalet är två textnoder: "Kalkyl · 30 gäster" i ett stycke blev "Calculus" i översättningen, ensamt "Kalkyl" blir "Estimate". */}
           <h2>
             <span>Kalkyl</span>

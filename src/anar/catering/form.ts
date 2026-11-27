@@ -77,17 +77,12 @@ export interface Problem {
   message: string
 }
 
-/** Första felet i formuläret, i den ordning gästen fyller i det, eller null. */
-export function validate(
-  f: FormState,
-  ctx: { guests: number; minGuests: number; selected: number; dates: { min: string; max: string } },
-): Problem | null {
-  const problem = (field: string | null, message: string): Problem => ({ field, message })
-  if (!ctx.guests) return problem('guests', 'Fyll i antal gäster.')
-  if (ctx.guests < ctx.minGuests) return problem('guests', `Minst ${ctx.minGuests} gäster.`)
-  if (ctx.selected === 0) return problem(null, 'Välj minst en maträtt eller dryck.')
+const problem = (field: string | null, message: string): Problem => ({ field, message })
+
+/** Första felet i "När och var" (datum, tid, adress vid leverans, utrustningen), eller null när steget är klart. */
+function whenWhereProblem(f: FormState, dates: { min: string; max: string }): Problem | null {
   if (!f.deliveryDate) {
-    return problem('deliveryDate', `Välj ett datum mellan ${showDate(ctx.dates.min)} och ${showDate(ctx.dates.max)}.`)
+    return problem('deliveryDate', `Välj ett datum mellan ${showDate(dates.min)} och ${showDate(dates.max)}.`)
   }
   if (!/^([01]\d|2[0-3]):[0-5]\d$/.test(f.deliveryTime)) return problem('deliveryTime', 'Välj en tid.')
   if (f.fulfilment === 'delivery' && !hasAddress(f)) {
@@ -95,6 +90,11 @@ export function validate(
     return problem(field, 'Fyll i leveransadressen (gata, postnummer och ort).')
   }
   if (!f.equipmentReturn) return problem('equipmentReturn', 'Välj hur fat och utrustning lämnas tillbaka.')
+  return null
+}
+
+/** Första felet i "Dina uppgifter" (kontaktuppgifter, och företagets uppgifter för ett företag), eller null när steget är klart. */
+function detailsProblem(f: FormState): Problem | null {
   if (!f.name.trim()) return problem('name', 'Fyll i ditt namn.')
   if (!EMAIL.test(f.email)) return problem('email', 'Fyll i en giltig e-postadress, offerten skickas dit.')
   if (!PHONE.test(f.phone)) return problem('phone', 'Fyll i ett giltigt mobilnummer, t.ex. 070-123 45 67.')
@@ -106,6 +106,25 @@ export function validate(
     }
     if (!f.signatoryAuthority) return problem('signatoryAuthority', 'Bekräfta att den som signerar får teckna avtal för företaget.')
   }
+  return null
+}
+
+/** "När och var" är ifyllt (samma krav som valideringen vid Skicka). */
+export const whenWhereDone = (f: FormState): boolean => whenWhereProblem(f, { min: '', max: '' }) === null
+
+/** "Dina uppgifter" är ifyllt (samma krav som valideringen vid Skicka). */
+export const detailsDone = (f: FormState): boolean => detailsProblem(f) === null
+
+/** Första felet i formuläret, i den ordning gästen fyller i det, eller null. */
+export function validate(
+  f: FormState,
+  ctx: { guests: number; minGuests: number; selected: number; dates: { min: string; max: string } },
+): Problem | null {
+  if (!ctx.guests) return problem('guests', 'Fyll i antal gäster.')
+  if (ctx.guests < ctx.minGuests) return problem('guests', `Minst ${ctx.minGuests} gäster.`)
+  if (ctx.selected === 0) return problem(null, 'Välj minst en maträtt eller dryck.')
+  const early = whenWhereProblem(f, ctx.dates) ?? detailsProblem(f)
+  if (early) return early
   return f.accept ? null : problem('accept', 'Godkänn villkoren för att skicka förfrågan.')
 }
 
