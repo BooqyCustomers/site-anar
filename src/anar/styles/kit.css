@@ -367,3 +367,21 @@
     transition: top 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
+
+/* Röda texter. Kitets --ink-red (#9e1d26) är en mörkröd färg för dess ljusa pappersdesign. På Anars mörka sida var
+   kontrasten bara 2,4 till 1 (kravet för liten text är 4,5 till 1), och stämpeln ("Tack! Din förfrågan är skickad.",
+   "Bokat" och de andra statusarna) låg dessutom direkt på fotot bakom den halvgenomskinliga panelen. Stämpeln får en
+   mörk, nästan täckande botten och en ljusare röd (8,6 till 1 mot botten), lite större text och en mjuk skugga så att
+   den lyfter från bilden. Den gröna "Bokat"-varianten (.stamp-ok) behåller sin gröna färg (9,7 till 1) och får samma
+   botten. Klockan i bordshållningens sista två minuter ("Snart släpps bordet") var samma mörkröda text på mörk botten. */
+.booking-status {
+  padding: 5px 11px 4px;
+  font-size: 0.84rem;
+  color: #ff8a80;
+  background: rgba(22, 8, 8, 0.93);
+  box-shadow: 0 6px 18px -6px rgba(0, 0, 0, 0.75);
+}
+
+.hold-banner.urgent .hold-clock {
+  color: #ff8a80;
+}
