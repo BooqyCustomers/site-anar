@@ -141,12 +141,36 @@ test('order for pickup', async ({ page }) => {
     // Add the first dish and go as far as the payment step (the unpaid order expires by itself).
     await main.getByRole('button', { name: /lägg (till|i)/i }).first().click()
     await main.getByRole('button', { name: /till kassan|gå vidare|fortsätt/i }).first().click()
-    await main.getByRole('textbox', { name: /namn/i }).fill(TEST_NAME)
-    await main.getByRole('textbox', { name: /e-post/i }).fill(testEmail('order-flow'))
-    await main.getByRole('textbox', { name: /telefon/i }).fill(testPhone())
-    await main.getByRole('checkbox', { name: /villkor/i }).check()
-    await main.getByRole('button', { name: /betala|gå vidare|fortsätt/i }).first().click()
-    await expect(page.frameLocator('iframe[name^="__privateStripeFrame"]').first().locator('body')).toBeVisible({ timeout: 30_000 })
+    // site-kit 0.6 checkout, in this order: "Vem är du?" (name, mobile),
+    // "Kvitto och önskemål" (e-mail), "Godkänn och betala" (order terms),
+    // then the "Betala" step with Stripe's card form.
+    const step = (title: string) => expect(main.getByRole('heading', { level: 1, name: title, exact: true })).toBeVisible({ timeout: 30_000 })
+    const next = () => main.getByRole('button', { name: 'Fortsätt', exact: true }).click()
+    await step('Vem är du?')
+    await main.getByRole('textbox', { name: /^Namn$/ }).fill(TEST_NAME)
+    await main.getByRole('textbox', { name: /^Mobilnummer/ }).first().fill(testPhone())
+    await next()
+    await step('Kvitto och önskemål')
+    await main.getByRole('textbox', { name: /^E-post/ }).fill(testEmail('order-flow'))
+    await next()
+    await step('Godkänn och betala')
+    // The order terms are required: without them the guest stays on this step.
+    const terms = main.getByRole('checkbox', { name: /inte kan ändras efter betalning/ })
+    await expect(terms).toBeVisible()
+    await expect(terms).not.toBeChecked()
+    const toPayment = main.getByRole('button', { name: /^Till betalning/ })
+    await toPayment.click()
+    await expect(main.getByText('Godkänn villkoren för att gå vidare till betalning.')).toBeVisible()
+    await step('Godkänn och betala')
+    // The marketing box (wording from the API) is never pre-ticked (GDPR) and never ticked here.
+    const marketing = main.locator('.consent-box input[type="checkbox"]')
+    if (await marketing.count()) await expect(marketing).not.toBeChecked()
+    await terms.check()
+    await toPayment.click()
+    // The payment step: never press its pay button. Stripe also adds hidden frames: the card form is the visible one.
+    await step('Betala')
+    const stripe = page.locator('iframe[name^="__privateStripeFrame"]:visible').first()
+    await expect(stripe).toBeVisible({ timeout: 30_000 })
   }
   expect(errors()).toEqual([])
 })

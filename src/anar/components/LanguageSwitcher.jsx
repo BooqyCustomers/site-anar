@@ -6,9 +6,9 @@ import { LanguagePicker } from '@bookingsystemadvancedorg/site-kit';
  * arabiska, persiska) i Anars svarta glas. Översättningen görs av site-kit
  * (Amazon Translate).
  */
-export default function LanguageSwitcher() {
+export default function LanguageSwitcher({ ref = undefined } = {}) {
   return (
-    <div className="language-switcher" dir="ltr">
+    <div className="language-switcher" dir="ltr" ref={ref}>
       <LanguagePicker className="language-switcher-picker" />
     </div>
   );

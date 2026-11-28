@@ -14,3 +14,16 @@
 .desk-split .kit-panel {
   min-height: 720px;
 }
+
+/*
+ * Pekaren (ägaren 2026-11-27): muspekaren ändras aldrig på webbplatsen, vad den än pekar på
+ * (länkar, knappar, fält, kartan, planritningen). Det som pekas på visar i stället en egen
+ * hover-effekt. Sist i den sist laddade stilmallen (index.css, sist i main.tsx), så att inget
+ * annat !important går före; src/cursor.test.ts vaktar det.
+ */
+html,
+html *,
+html *::before,
+html *::after {
+  cursor: default !important;
+}

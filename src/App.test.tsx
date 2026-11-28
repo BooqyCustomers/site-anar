@@ -16,6 +16,13 @@ function renderSite(path = '/') {
   )
 }
 
+// jsdom har ingen layout, så headern står i läget med menyknappen (headerFit.ts): länkarna i raden är
+// dolda (aria-hidden, inert) och nås genom panelen, som på en telefon. Header.test.tsx provar båda lägena.
+async function clickMenuLink(name: string) {
+  await userEvent.click(screen.getByRole('button', { name: 'Öppna meny' }))
+  await userEvent.click(within(document.getElementById('mobile-drawer') as HTMLElement).getByRole('link', { name }))
+}
+
 afterEach(() => {
   configureSiteKit({ apiBaseUrl: 'https://api.test', menuImageBaseUrl: undefined })
   vi.unstubAllGlobals()
@@ -85,8 +92,12 @@ describe('App on SiteProvider', () => {
     renderSite()
 
     await screen.findAllByRole('link', { name: 'Meny' })
-    expect(screen.getAllByRole('link', { name: 'Presentkort' }).length).toBeGreaterThan(0)
-    expect(screen.getAllByRole('link', { name: 'Evenemang' }).length).toBeGreaterThan(0)
+    const header = screen.getByRole('banner', { hidden: true })
+    const drawer = document.getElementById('mobile-drawer') as HTMLElement
+    for (const name of ['Presentkort', 'Evenemang']) {
+      expect(within(header).getByRole('link', { name, hidden: true })).toBeInTheDocument()
+      expect(within(drawer).getByRole('link', { name, hidden: true })).toBeInTheDocument()
+    }
   })
 
   it('has a Catering link in the header that opens "Under utveckling" while the location has not switched catering on, header kept', async () => {
@@ -96,16 +107,16 @@ describe('App on SiteProvider', () => {
     renderSite()
 
     await screen.findAllByRole('link', { name: 'Meny' })
-    const link = screen.getAllByRole('link', { name: 'Catering' })[0]
+    const link = within(screen.getByRole('banner')).getByRole('link', { name: 'Catering', hidden: true })
     expect(link).toHaveAttribute('href', '/catering')
 
-    await userEvent.click(link)
+    await clickMenuLink('Catering')
 
     expect(await screen.findByRole('heading', { level: 1, name: 'Catering' })).toBeInTheDocument()
     expect(screen.getByText('Under utveckling')).toBeInTheDocument()
     // Headern och menyn finns kvar på sidan.
     expect(screen.getAllByRole('link', { name: 'Meny' }).length).toBeGreaterThan(0)
-    expect(screen.getAllByRole('link', { name: 'Catering' }).length).toBeGreaterThan(0)
+    expect(screen.getAllByRole('link', { name: 'Catering', hidden: true }).length).toBeGreaterThan(0)
   })
 
   it("opens Anar's catering form (tick what you want) from the same button once the location has catering switched on", async () => {
@@ -130,7 +141,7 @@ describe('App on SiteProvider', () => {
     renderSite()
 
     await screen.findAllByRole('link', { name: 'Meny' })
-    await userEvent.click(screen.getAllByRole('link', { name: 'Catering' })[0])
+    await clickMenuLink('Catering')
 
     expect(await screen.findByRole('heading', { level: 1, name: 'Räkna på catering' })).toBeInTheDocument()
     // Först vilka delar av menyn gästen vill ha, sedan rätterna att kryssa i (inte ett antal att skriva: mängden räknas ut åt gästen).
@@ -182,9 +193,9 @@ describe('App on SiteProvider', () => {
 
     await screen.findAllByRole('link', { name: 'Meny' })
     const header = screen.getByRole('banner')
-    expect(within(header).getByRole('link', { name: 'Parkering' })).toBeInTheDocument()
-    expect(within(header).queryByRole('link', { name: 'Vår historia' })).not.toBeInTheDocument()
-    expect(within(header).queryByRole('link', { name: 'Kontakt' })).not.toBeInTheDocument()
+    expect(within(header).getByRole('link', { name: 'Parkering', hidden: true })).toBeInTheDocument()
+    expect(within(header).queryByRole('link', { name: 'Vår historia', hidden: true })).not.toBeInTheDocument()
+    expect(within(header).queryByRole('link', { name: 'Kontakt', hidden: true })).not.toBeInTheDocument()
     const drawer = [...document.querySelectorAll('#mobile-drawer a')].map((a) => a.textContent)
     expect(drawer).toContain('Parkering')
     expect(drawer).not.toContain('Vår historia')

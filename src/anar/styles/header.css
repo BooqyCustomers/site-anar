@@ -17,12 +17,38 @@
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   align-items: center;
-  /* Figma 1440: gap 29, padding 28 48 */
-  gap: clamp(0.75rem, 2vw, 1.8125rem);
-  padding: clamp(1rem, 1.95vw, 1.75rem) clamp(1rem, 3.34vw, 3rem);
+  /* Figma 1440: gap 29, padding 28 48. Som variabler: headerFit.ts mäter dem (.site-header-probe) även i läget med menyknappen. */
+  --header-gap: clamp(0.75rem, 2vw, 1.8125rem);
+  --header-pad-x: clamp(1rem, 3.34vw, 3rem);
+  gap: var(--header-gap);
+  padding: clamp(1rem, 1.95vw, 1.75rem) var(--header-pad-x);
   border-bottom: 1px solid rgba(255, 245, 238, 0.12);
   backdrop-filter: blur(10px);
   background: rgba(6, 3, 3, 0.35);
+}
+
+/* Mått för headerFit.ts: bredd = sidomarginalen, höjd = kolumnavståndet i läget med länkarna i raden. */
+.site-header-probe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--header-pad-x);
+  height: var(--header-gap);
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* Länkarna när de inte får plats i raden (headerFit.ts, data-fit="1"): lyfta ur raden men kvar i sin
+   naturliga bredd, så att de går att mäta och bandet vet när de får plats igen. Mot bandets högra kant
+   och utåt vänster, så att de aldrig ger sidan en vågrät rullning. Osynliga, inert och dolda för skärmläsare;
+   panelen bakom menyknappen har samma länkar. */
+.site-header-off {
+  position: absolute !important;
+  top: 0;
+  right: 0;
+  width: max-content;
+  visibility: hidden !important;
+  pointer-events: none;
 }
 
 /* Gömd av scrollen, eller av den öppna sidomenyn: då åker hela headern uppåt och kommer tillbaka när menyn stängs. */
@@ -263,9 +289,11 @@ html.nav-open .offer-tab {
   margin: 0;
   padding: 0;
   display: flex;
-  flex-wrap: wrap;
-  /* Alla länkar (och Öppettider-knappen) på samma linje på båda sidor om loggan.
-     Tätare än Figma (1,18vw) så att länkarna till höger ryms på en rad bredvid språkväljaren från 1366 px. */
+  /* Alla länkar (och Öppettider-knappen) på en linje på båda sidor om loggan, aldrig på två rader:
+     får de inte plats tar menyknappen över (headerFit.ts). Listan är lika bred som länkarna, så att
+     den går att mäta. Tätare än Figma (1,18vw). */
+  flex-wrap: nowrap;
+  width: max-content;
   align-items: center;
   gap: clamp(0.25rem, 0.8vw, 1.0625rem);
 }
@@ -275,8 +303,10 @@ html.nav-open .offer-tab {
   align-items: center;
 }
 
-.site-header-nav--left ul {
+.site-header-nav--left {
+  display: flex;
   justify-content: flex-end;
+  min-width: 0;
 }
 
 .site-header-nav--right ul {
@@ -295,6 +325,7 @@ html.nav-open .offer-tab {
   text-decoration: none;
   padding: 0.35rem;
   border-radius: 2px;
+  white-space: nowrap;
   transition: color 0.2s ease, background 0.2s ease;
 }
 
@@ -323,40 +354,34 @@ html.nav-open .offer-tab {
   display: block;
 }
 
-/* Under 1074px viewport: hamburger + sidomeny i stället för två nav-rader */
-@media (max-width: 1073px) {
-  .site-header {
-    /* Lika breda sidor: loggan står mitt i bandet även med språkväljaren till höger. */
-    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
-    gap: 0.5rem;
-    padding-left: clamp(0.75rem, 3vw, 1.25rem);
-    padding-right: clamp(0.75rem, 3vw, 1.25rem);
-    background: none;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-    border-bottom: none;
-    box-shadow: none;
-  }
+/* Länkarna får inte plats på en rad (mätt i headerFit.ts, alla språk och bredder): menyknapp och sidomeny.
+   :where() håller specificiteten som den gamla brytpunkten hade, så att t.ex. den klistrade bakgrunden vinner. */
+.site-header:where([data-fit='1']) {
+  /* Lika breda sidor: loggan står mitt i bandet även med språkväljaren till höger. */
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  gap: 0.5rem;
+  padding-left: clamp(0.75rem, 3vw, 1.25rem);
+  padding-right: clamp(0.75rem, 3vw, 1.25rem);
+  background: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-bottom: none;
+  box-shadow: none;
+}
 
-  .site-header-burger {
-    display: flex;
-  }
+:where(.site-header[data-fit='1']) .site-header-burger {
+  display: flex;
+}
 
-  .site-header-end {
-    justify-content: flex-end;
-  }
+:where(.site-header[data-fit='1']) .site-header-end {
+  justify-content: flex-end;
+}
 
-  .site-header-gutter {
-    display: block;
-    justify-self: start;
-  }
+:where(.site-header[data-fit='1']) .site-header-gutter {
+  display: block;
+  justify-self: start;
+}
 
-  .site-header-nav--left,
-  .site-header-nav--right {
-    display: none;
-  }
-
-  .site-header-brand {
-    justify-self: center;
-  }
+:where(.site-header[data-fit='1']) .site-header-brand {
+  justify-self: center;
 }

@@ -7,6 +7,7 @@ import OpeningHoursModal from './OpeningHoursModal';
 import LanguageSwitcher from './LanguageSwitcher';
 import { useLanguage } from '../i18n/LanguageContext';
 import useHideOnScroll from '../hooks/useHideOnScroll';
+import { useHeaderFit } from './headerFit';
 
 const BASE_LEFT_NAV = [
   { key: 'nav.meny', to: '/meny' },
@@ -35,7 +36,33 @@ export default function Header() {
   const closeBtnRef = useRef(null);
   const openingHoursDesktopRef = useRef(null);
   const prevMenuOpen = useRef(false);
+  const fitRef = useRef(1);
   const headerRef = useRef(null);
+  const probeRef = useRef(null);
+  const brandRef = useRef(null);
+  const leftListRef = useRef(null);
+  const rightListRef = useRef(null);
+  const endRef = useRef(null);
+  const langRef = useRef(null);
+  const drawerRef = useRef(null);
+  // Länkarna på en rad när de får plats (mätt, headerFit.ts), annars i panelen bakom menyknappen.
+  const fit = useHeaderFit(
+    {
+      header: headerRef,
+      probe: probeRef,
+      brand: brandRef,
+      leftList: leftListRef,
+      rightList: rightListRef,
+      end: endRef,
+      tools: langRef,
+    },
+    menuOpen,
+    // Länkarna får plats i raden igen: panelen har ingen menyknapp längre, så den stängs.
+    (next) => {
+      if (next === 0) setMenuOpen(false);
+    },
+  );
+  const linksInRow = fit === 0;
   // Gömd när man scrollar nedåt, synlig när man scrollar uppåt; alltid synlig medan en meny är öppen.
   const { hidden, stuck } = useHideOnScroll(headerRef, { paused: menuOpen || hoursModalOpen });
 
@@ -74,15 +101,34 @@ export default function Header() {
     };
   }, [hidden]);
 
+  useEffect(() => {
+    fitRef.current = fit;
+  }, [fit]);
+
   // Menyn öppen: fokus till menyns egen stängknapp (menyknappen i headern är då gömd). Stängd: tillbaka till menyknappen.
   useEffect(() => {
     if (menuOpen) {
       closeBtnRef.current?.focus({ preventScroll: true });
     } else if (prevMenuOpen.current) {
-      menuBtnRef.current?.focus();
+      // Menyknappen finns inte när länkarna står i raden: då den första länken.
+      if (fitRef.current === 0) headerRef.current?.querySelector('.site-header-nav a')?.focus({ preventScroll: true });
+      else menuBtnRef.current?.focus();
     }
     prevMenuOpen.current = menuOpen;
   }, [menuOpen]);
+
+  // Tab stannar i den öppna panelen: stängknappen, länkarna och Öppettider, runt igen.
+  const trapTab = (e) => {
+    if (!menuOpen || e.key !== 'Tab') return;
+    const drawer = drawerRef.current;
+    if (!drawer) return;
+    const items = [...drawer.querySelectorAll('a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])')];
+    if (items.length === 0) return;
+    e.preventDefault();
+    const i = items.indexOf(document.activeElement);
+    const next = i === -1 ? 0 : (i + (e.shiftKey ? -1 : 1) + items.length) % items.length;
+    items[next].focus();
+  };
 
   return (
     <>
@@ -90,12 +136,20 @@ export default function Header() {
       <header
         ref={headerRef}
         inert={menuOpen}
+        data-fit={fit}
         className={`site-header${stuck ? ' site-header--stuck' : ''}${hidden ? ' site-header--hidden' : ''}${menuOpen ? ' site-header--menu-open' : ''}`}
       >
+        {/* Osynligt mått för headerFit.ts: bandets sidomarginal och kolumnavstånd när länkarna står i raden. */}
+        <span className="site-header-probe" ref={probeRef} aria-hidden="true" />
         <div className="site-header-gutter" aria-hidden="true" />
 
-        <nav className="site-header-nav site-header-nav--left" aria-label={t('a11y.navLeft')}>
-          <ul>
+        <nav
+          className={`site-header-nav site-header-nav--left${linksInRow ? '' : ' site-header-off'}`}
+          aria-label={t('a11y.navLeft')}
+          aria-hidden={linksInRow ? undefined : true}
+          inert={!linksInRow}
+        >
+          <ul ref={leftListRef}>
             {LEFT_NAV.map((item) => (
               <li key={item.to}>
                 <Link to={item.to}>{t(item.key)}</Link>
@@ -104,14 +158,19 @@ export default function Header() {
           </ul>
         </nav>
 
-        <Link className="site-header-brand" to="/" aria-label={t('a11y.home')} onClick={closeMenu}>
+        <Link ref={brandRef} className="site-header-brand" to="/" aria-label={t('a11y.home')} onClick={closeMenu}>
           <img src={logoImg} alt="" width={88} height={88} />
         </Link>
 
         {/* Höger kolumn: länkarna, sedan språkväljaren längst till höger (och på telefon menyknappen). */}
-        <div className="site-header-end">
-          <nav className="site-header-nav site-header-nav--right" aria-label={t('a11y.navRight')}>
-            <ul>
+        <div className="site-header-end" ref={endRef}>
+          <nav
+            className={`site-header-nav site-header-nav--right${linksInRow ? '' : ' site-header-off'}`}
+            aria-label={t('a11y.navRight')}
+            aria-hidden={linksInRow ? undefined : true}
+            inert={!linksInRow}
+          >
+            <ul ref={rightListRef}>
               {RIGHT_NAV.map((item) => (
                 <li key={item.to}>
                   <Link to={item.to}>{t(item.key)}</Link>
@@ -128,11 +187,13 @@ export default function Header() {
           </nav>
 
           <div className="site-header-tools">
-            <LanguageSwitcher />
+            <LanguageSwitcher ref={langRef} />
             <button
               ref={menuBtnRef}
               type="button"
               className={`site-header-burger${menuOpen ? ' site-header-burger--open' : ''}`}
+              aria-hidden={linksInRow ? true : undefined}
+              inert={linksInRow}
               aria-label={menuOpen ? t('a11y.closeMenu') : t('a11y.openMenu')}
               aria-expanded={menuOpen}
               aria-controls="mobile-drawer"
@@ -154,6 +215,8 @@ export default function Header() {
 
       <aside
         id="mobile-drawer"
+        ref={drawerRef}
+        onKeyDown={trapTab}
         className={`mobile-drawer${menuOpen ? ' mobile-drawer--open' : ''}`}
         aria-hidden={!menuOpen}
         inert={!menuOpen}

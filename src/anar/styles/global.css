@@ -21,11 +21,3 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
-
-/* Ägaren: pekaren är alltid standardpekaren, även över länkar, knappar och
-   fält. Det som pekas på visar i stället en egen hover-effekt. */
-*,
-*::before,
-*::after {
-  cursor: default !important;
-}
